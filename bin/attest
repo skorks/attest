@@ -1,4 +1,17 @@
 #!/usr/bin/env ruby
 
-require 'attest'
+require File.expand_path(File.dirname(__FILE__) + "/../lib/attest")
 
+opts = Trollop::options do
+  banner <<-EOS
+Usage:
+       attest [options] <filenames>+
+where [options] are:
+EOS
+
+  opt :file, "Ruby file with inline tests that should be executed",
+        :type => String
+end
+Trollop::die :file, "Must exist" unless File.exist?(opts[:file]) if opts[:file]
+
+puts opts

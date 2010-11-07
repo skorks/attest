@@ -1,2 +1,2 @@
-source "http://rubygems.org"
+source :rubygems
 gem "trollop"
