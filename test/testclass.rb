@@ -2,6 +2,10 @@ class TestClass
   def set_var(var)
     @var = var
   end
+
+  def add_two(var)
+    var + 2
+  end
 end
 
 if ENV["attest"]
