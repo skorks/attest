@@ -1,0 +1,14 @@
+rough features 
+
+able to write single test in the same file as code under test, should not be able to accidentally run the test code
+able to go through all the ruby files in the project and run any tests that are found 
+able to print progress to the commandline as tests are being run 
+do not pollute the core classes unnecessarily
+
+able to go through all the ruby files in supplied directory running tests when found
+
+
+
+
+
+passing a ruby file to attest should print out whether or not there may be any inline tests in the ruby file

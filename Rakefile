@@ -10,7 +10,7 @@ begin
     gem.email = "alan@skorks.com"
     gem.homepage = "http://github.com/skorks/attest"
     gem.authors = ["Alan Skorkin"]
-    gem.add_development_dependency "trollop"
+    gem.add_runtime_dependency "trollop"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
