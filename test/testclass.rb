@@ -9,14 +9,22 @@ class TestClass
 end
 
 if ENV["attest"]
-  tests_for TestClass do 
+  this_tests TestClass do 
     before_all do 
       test_class = TestClass.new
     end
 
-    test set_var do
+    after_all do
+      puts "cleaning up"
+    end
+
+    test "set_var" do
       test_class.set_var(6) 
       failure if test_class.var == nil
+    end
+
+    test "add_two" do
+      failure if test_class.add_two(3) != 5
     end
   end
 end
