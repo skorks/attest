@@ -36,14 +36,7 @@ if ENV["attest"]
     test("add_two") {
       @test_class.add_two(3).itself.should == 5
     }
-    test ("add_two 2") { @test_class.add_two(5).itself.should == 8 } 
-    #test "multiply works" {@test_class.multiply(2,3).should == 6}
+    test("add_two 2") { @test_class.add_two(5).itself.should == 8 } 
+    test( "multiply works" ) {@test_class.multiply(2,3).itself.should == 6}
   end
-
-  #this_tests "some_method" do
-    #test do
-      #puts "testing some_method"
-      #some_method("abc").should == "cba"
-    #end
-  #end
 end
