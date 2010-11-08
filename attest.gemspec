@@ -27,7 +27,9 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "attest.gemspec",
      "bin/attest",
+     "doodle.txt",
      "lib/attest.rb",
      "test/testclass.rb"
   ]

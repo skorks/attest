@@ -1,3 +1,9 @@
+PATH
+  remote: .
+  specs:
+    attest (0.1.0)
+      trollop
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -7,4 +13,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  attest!
   trollop

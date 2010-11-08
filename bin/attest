@@ -2,21 +2,7 @@
 
 #need this so that bundler doesn't throw an error after library has been installed as gem and the executable is called
 ENV["BUNDLE_GEMFILE"] = File.expand_path(File.dirname(__FILE__) + "/../Gemfile")
-
-#gemspec = File.expand_path(File.dirname(__FILE__) + "/../attest.gemspec")
-
-#spec = Gem::Specification.load(gemspec)
-#raise InvalidOption, "There was an error loading the gemspec at #{gemspec}." unless spec
-##gem spec.name, :path => path
-#spec.runtime_dependencies.each do |dep|
-  #puts dep.name
-  ##gem dep.name, *dep.requirement.as_list
-#end
-##group(development_group) do
-  ##spec.development_dependencies.each do |dep|
-    ##gem dep.name, *dep.requirement.as_list
-  ##end
-##end
+ENV["attest"] = "true"
 
 require File.expand_path(File.dirname(__FILE__) + "/../lib/attest")
 
@@ -32,4 +18,4 @@ EOS
 end
 Trollop::die :file, "Must exist" unless File.exist?(opts[:file]) if opts[:file]
 
-puts opts
+a = load opts[:file]

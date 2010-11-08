@@ -1,4 +1,5 @@
 class TestClass
+  attr_reader :var
   def set_var(var)
     @var = var
   end
@@ -6,25 +7,43 @@ class TestClass
   def add_two(var)
     var + 2
   end
-end
 
-if ENV["attest"]
-  tests_for TestClass do 
-    before_all do 
-      test_class = TestClass.new
-    end
-
-    test set_var do
-      test_class.set_var(6) 
-      failure if test_class.var == nil
-    end
+  private
+  def multiply(x, y)
+    x * y
   end
 end
 
-#run it like attest test/*
-#Testing TestClass
-# - set_var 
-# - set_var sets value to 5
-#SUCCESSES: 2
-#FAILURES: 0
-#ERRORS: 0
+def some_method(x)
+  x.reverse
+end
+
+if ENV["attest"]
+  this_tests TestClass do 
+    before_all do 
+      @test_class = TestClass.new
+    end
+
+    after_all do
+      @test_class = nil
+    end
+
+    test "set_var" do
+      @test_class.set_var(6) 
+      @test_class.var.itself.should != nil
+    end
+
+    test("add_two") {
+      @test_class.add_two(3).itself.should == 5
+    }
+    test ("add_two 2") { @test_class.add_two(5).itself.should == 8 } 
+    #test "multiply works" {@test_class.multiply(2,3).should == 6}
+  end
+
+  #this_tests "some_method" do
+    #test do
+      #puts "testing some_method"
+      #some_method("abc").should == "cba"
+    #end
+  #end
+end
