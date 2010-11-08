@@ -37,6 +37,9 @@ most basic
 - the most basic result output DONE
 - able to detect when test expectation fails DONE
 - execute tests for single ruby file if any present DONE
-- able to detect when test errors out and gracefully say so in output
-- all object to have a should_equal expectation method
-- all objects should have a should_not_equal expectation method
+- able to detect when test errors out and gracefully say so in output DONE
+- all object to have a should_equal expectation method DONE
+- all objects should have a should_not_equal expectation method DONE
+
+- should provide the error trace if a test has errored
+- all objects have access to a should_raise expectation

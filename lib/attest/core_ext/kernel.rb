@@ -25,6 +25,4 @@ module Kernel
     test_context = Attest::TestContext.new(subject, block)
     test_context.execute
   end
-
-
 end

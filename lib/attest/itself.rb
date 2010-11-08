@@ -4,8 +4,12 @@ module Attest
       @itself = object
     end
 
-    def should
-      @itself 
+    def should_equal(another_object)
+      @itself == another_object
+    end
+
+    def should_not_equal(another_object)
+      @itself != another_object
     end
   end
 end
