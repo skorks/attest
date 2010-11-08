@@ -1,5 +1,4 @@
 class TestClass
-  attr_reader :var
   def set_var(var)
     @var = var
   end

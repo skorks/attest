@@ -30,8 +30,13 @@ basic features
 - ability to tests a private method by simply calling it
 
 most basic
-- setup and teardown
-- specify test for regular public method
-- should method on all objects
-- results printed out as tests are executed
-- execute tests for single ruby file if any present
+- setup and teardown DONE
+- specify test for regular public method DONE
+- specify test for a private method DONE
+- ability to read instance variable of object under test without having to specify a reader DONE
+- the most basic result output DONE
+- able to detect when test expectation fails DONE
+- execute tests for single ruby file if any present DONE
+- able to detect when test errors out and gracefully say so in output
+- all object to have a should_equal expectation method
+- all objects should have a should_not_equal expectation method
