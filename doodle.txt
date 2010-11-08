@@ -12,3 +12,26 @@ able to go through all the ruby files in supplied directory running tests when f
 
 
 passing a ruby file to attest should print out whether or not there may be any inline tests in the ruby file
+
+
+- should be able to specify multiple setup and teardown methods to be run for all test or only some tests
+  - before(:all)
+  - before(:x, :y, :z)
+- should be able to switch off all setup and teardown for particular tests
+  - nosetup
+- global 
+
+basic features
+- before all setup method
+- after all teardown method
+- this_tests for specifying all tests
+- specify tests with name/description
+- specify a test anonymously, a description gets generated
+- ability to tests a private method by simply calling it
+
+most basic
+- setup and teardown
+- specify test for regular public method
+- should method on all objects
+- results printed out as tests are executed
+- execute tests for single ruby file if any present
