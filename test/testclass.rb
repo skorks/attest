@@ -40,5 +40,6 @@ if ENV["attest"]
     test("add_two 2") { @test_class.add_two(5).itself.should_equal 8 } 
     test("multiply works") {@test_class.multiply(2,3).itself.should_equal 6}
     test("errors test"){@test_class.errors}
+    test("error expected"){@test_class.errors.itself.should_raise}
   end
 end
