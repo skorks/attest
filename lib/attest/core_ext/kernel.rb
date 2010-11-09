@@ -20,9 +20,9 @@ module Kernel
   alias_method :old_method_missing, :method_missing
   alias_method :method_missing, :new_method_missing
 
-  private
-  def this_tests(subject, &block)
-    test_context = Attest::TestContext.new(subject, block)
-    test_context.execute
-  end
+  #private
+  #def this_tests(subject, &block)
+    #test_context = Attest::TestContext.new(subject, block)
+    #test_context.execute
+  #end
 end
