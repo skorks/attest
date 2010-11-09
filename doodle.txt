@@ -14,21 +14,6 @@ able to go through all the ruby files in supplied directory running tests when f
 passing a ruby file to attest should print out whether or not there may be any inline tests in the ruby file
 
 
-- should be able to specify multiple setup and teardown methods to be run for all test or only some tests
-  - before(:all)
-  - before(:x, :y, :z)
-- should be able to switch off all setup and teardown for particular tests
-  - nosetup
-- global 
-
-basic features
-- before all setup method
-- after all teardown method
-- this_tests for specifying all tests
-- specify tests with name/description
-- specify a test anonymously, a description gets generated
-- ability to tests a private method by simply calling it
-
 most basic
 - setup and teardown DONE
 - specify test for regular public method DONE
@@ -41,5 +26,16 @@ most basic
 - all object to have a should_equal expectation method DONE
 - all objects should have a should_not_equal expectation method DONE
 
+- should be able to specify a test anonymously without providing description
+- ability to give a test an id as well as description
+- ability to specify that no setup or teardown should be run for the test
+- ability to specify multiple setups and teardowns and register specific setups and teardowns to run for specific tests
+- ability to magically include module in an object and test its methods while it is included in an object
 - should provide the error trace if a test has errored
 - all objects have access to a should_raise expectation
+- should be able to produce a summary of execution at the end, with count of successes, failures and errors
+- should be able to produce shorthand output while running with a summary at the end (test unit style shorthand), controlled by cli parameter
+- should have a should_fail expectation, possibly for tests that haven't been implemented aliased to not_implemented, not_implemented_failing, not_implemented_passing
+- should have a should_be_true expectation type for more flexibility
+- don't pollute global objects with methods, instead Attest.this_tests do end to initiate the context, within there objects are augmented by methods, but outside of it they are not
+- you can require the library without augmenting objects with extra methods, only when you call do objects get augmented and should test for the fact that a method we're trying to augment with already exists, alternatively, don't ever require this library directly then we don't have an issue
