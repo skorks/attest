@@ -8,6 +8,3 @@ module Attest
 end
 
 This = Attest::This
-
-# parser should create a bunch of TestObject objects with all the befores and afters and the actual test itself
-# parser should return a TestContainer object with a bunch of TestObject objects in it

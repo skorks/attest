@@ -42,6 +42,7 @@ most basic
 - you can require the library without augmenting objects with extra methods, only when you call do objects get augmented and should test for the fact that a method we're trying to augment with already exists, alternatively, don't ever require this library directly then we don't have an issue
 
 - the should methods should return an expectation object (itself)
+- when deliberately failing should not actually print an error but should be a failure with a message instead
 - the output writer should be a separate class to allow for different writers
 - work out what methods need to be on the output writer class and hook them in where tests are run
 - work out what other expectations need to be on the execution context intself (should_raise, should_be_true)
