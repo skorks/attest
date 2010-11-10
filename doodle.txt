@@ -40,3 +40,39 @@ most basic
 - should have a should_be_true expectation type for more flexibility
 - don't pollute global objects with methods, instead Attest.this_tests do end to initiate the context, within there objects are augmented by methods, but outside of it they are not
 - you can require the library without augmenting objects with extra methods, only when you call do objects get augmented and should test for the fact that a method we're trying to augment with already exists, alternatively, don't ever require this library directly then we don't have an issue
+
+- the should methods should return an expectation object (itself)
+- the output writer should be a separate class to allow for different writers
+- work out what methods need to be on the output writer class and hook them in where tests are run
+- work out what other expectations need to be on the execution context intself (should_raise, should_be_true)
+- work out how to easily implement negation of the positive expectations on the execution context
+- hook in configuration into the framework
+- make it configurable via configuration and command line the name of the method that begins a test context (this_tests)
+- make it configurable via config and command line the name of the method that would produce an expectation object (itself or should), these are the only methods that extend core for now
+- try to execute existing method missing and if still an error then execute my method missing and fall back to existing method missing, so that don't accidentally kill method missing functionality that people wrote themselves
+- each test should maintain information about its successes, fails and errors so that output writer can grab the info from them
+- produce a short format output writer as well as a basic long format one to make sure that have ability to hook in different output writers
+- ability to hook in different output writers should be a configuration and command line parameter
+- should be able to configure attest via file (attest.config in same directory, or give location of config as command line param, or via .attest file in home dir or via a configuration block in a file under test, each level can override the other)
+- what expectation methods are actaully needed on the objects in the test methods themselves (should_be_true, should_equal etc) work out negation for these ones as well 
+- what methods should the expectation object have and how to allow to chain the methods and have everything work 
+- all test context should have an id and if one is not provided it should be generated
+- all test methods should have an id and if one is not provided it should be generated 
+- before and after blocks should be able to refer to tests they are targeting by the test id
+- test should be able to specify if they don't want the befores and afters to be run for them (this will take precedence over everything else)
+- should be able to have multiple test contexts in the same file, not nested though 
+- should be able to specify a test without a body for it to appear in the output as pending 
+- need to have a should_fail execution context method, with alias of fail  
+- should be able to call should_be empty on an object where empty is a method on the object, should_equal size 5 where size is a method on the object, i.e. boolean method on the objects gets used as a predicate
+- a expectation that this object as the same as another object, i.e. exactly the same object not an equal one
+- for exceptions, should_raise(XyzError) {x.some_call}.with_message(/some message regex/), the XyzError and the regex should be optional
+- test methods in a module that is built for class inclusion
+- test free floating methods that don't belong to a class or a module
+- an anonymous test without description similat to the test pile below but still for only one thing
+- a test pile method where you want to test random methods or do lots of assertions at the same time without having to think of a name for it, should introspect somehow what is/will be run and work out descriptions from that
+
+
+
+- a rake task to run the tests instead of a separate executable, configuration should be done through the rake task
+- ability to mock stuff out using some of the popular mocking frameworks, ability to plug in different one by config, including my own by default which hasn't been written yet
+- potentially later on think about doing nested contexts as well as shared contexts
