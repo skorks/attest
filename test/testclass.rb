@@ -41,9 +41,8 @@ if ENV["attest"]
 
     test("multiple assertions") do
       @test_class.set_var(6)
-      puts @test_class.var.itself
-      @test_class.var.itself.should_equal 7
-      should_raise(RuntimeError){@test_class.runtime_error}.with_message(/An error/)
+      @test_class.var.itself.should_equal 6
+      should_raise(RuntimeError){@test_class.runtime_error}.with_message(/1An error/)
     end
 
     #test("made to fail"){should_fail}

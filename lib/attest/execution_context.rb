@@ -1,45 +1,60 @@
 module Attest
   class ExecutionContext
-#should store list of result objects, or hashes or lists of some sort where result object contains all the information about how the test did, pass/fail/error any error messages, reasons for failure etc
-#the itself object is no longer necessary
+    attr_reader :results
+    #create a class macro whereby if the subject is self should throw a no method error for the methods supplied
+    #called_on_subject :should_equal
 
-    #as_itself :should_raise
+    def initialize
+      @results = []
+      @subject = self
+    end
 
-    #self.as_itself(method_name)
-    ##maybe make this one a class extension mixin
-    ##alias the method name as old_method_name, redefine method_name 
-    ##take the output of the method as a tuple [object, result]
-    ##create an Itself object with the object as self and the result as an indicator of result
-    #end
-    #when method call finishes wrap the output in an Itself object
     def should_raise(type=nil, &block)
+      @results << Attest::AssertionResult.new
+      result = @results.last
       begin
         if block_given?
           yield
         end
       rescue => e
-        #test possibly succeded
-        if type
-          #return true if e.class == type
+        if type && type == e.class
+          result.success
         else
-          #return true
+          result.success
         end
       end
-      #false #test failed
-      @error = e
+      #either no error was raised or it was an error type mismatch
+      result.failure if !result.success?
+      result.context = current_method
+      result.actual_error_object = e
+      result.expected_error = type
       self
     end
 
     def with_message(regex)
-      puts @error.message =~ regex
+      result = @results.last
+      raise Attest::AttestError.new "#{current_method} can't be called on that object" if result.context != "should_raise"
+      if(!(result.actual_error_object.message =~ regex) && result.success?)
+        #an error message mismatch
+        result.failure
+        result.expected_error_message = regex
+        result.context = current_method
+      end
     end
 
     def should_equal(an_object)
-      puts @subject == an_object
-    end
-
-    def subject(object)
-      @subject = object
+      raise Attest::AttestError.new "#{current_method} must be called on an object" if @subject == self
+      @results << Attest::AssertionResult.new
+      result = @results.last
+      result.context = current_method
+      if @subject == an_object
+        result.success
+      else
+        result.failure
+      end
+      result.expected = an_object
+      result.actual = @subject
+      self
     end
 
     #def should_not_raise(type=nil, &block)

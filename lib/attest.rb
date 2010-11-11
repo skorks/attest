@@ -4,6 +4,7 @@ Bundler.setup(:default)
 Bundler.require
 
 require 'attest/this'
+require 'attest/assertion_result'
 require 'attest/test_container'
 require 'attest/test_object'
 require 'attest/execution_context'
