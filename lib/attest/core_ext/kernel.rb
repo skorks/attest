@@ -25,4 +25,11 @@ module Kernel
     #test_context = Attest::TestContext.new(subject, block)
     #test_context.execute
   #end
+  private
+  def current_method
+    caller[0][/`([^']*)'/, 1]
+  end
+  def calling_method
+    caller[1][/`([^']*)'/, 1]
+  end
 end
