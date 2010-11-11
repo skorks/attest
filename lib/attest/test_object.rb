@@ -23,6 +23,12 @@ module Attest
       error = nil
       begin
        context = Attest::ExecutionContext.new
+       Object.class_eval do
+         define_method :itself do
+           context.subject(self)
+           context
+         end
+       end
        context.instance_eval(&@before) if @before
        result = context.instance_eval(&@test_block)
        context.instance_eval(&@after) if @after

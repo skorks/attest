@@ -39,6 +39,13 @@ if ENV["attest"]
       @test_class = nil
     end
 
+    test("multiple assertions") do
+      @test_class.set_var(6)
+      puts @test_class.var.itself
+      @test_class.var.itself.should_equal 7
+      should_raise(RuntimeError){@test_class.runtime_error}.with_message(/An error/)
+    end
+
     #test("made to fail"){should_fail}
 
     #test("no error") {should_not_raise{@test_class.good}}
@@ -49,7 +56,7 @@ if ENV["attest"]
       #end
     #end 
 
-    test ("error with message"){should_raise(RuntimeError){@test_class.runtime_error}.with_message(/An error/)}
+    #test ("error with message"){should_raise(RuntimeError){@test_class.runtime_error}.with_message(/An error/)}
 
     #test "set_var" do
       #@test_class.set_var(6) 
