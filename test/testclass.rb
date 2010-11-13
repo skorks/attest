@@ -39,21 +39,23 @@ if ENV["attest"]
       @test_class = nil
     end
 
-    test("multiple assertions") do
+    test("multiple expectations in one test") do
       @test_class.set_var(6)
       @test_class.var.itself.should_equal 6
       should_raise(RuntimeError){@test_class.runtime_error}.with_message(/1An error/)
     end
 
-    #test("made to fail"){should_fail}
+    test("deliberately fail the test"){should_fail}
 
-    #test("no error") {should_not_raise{@test_class.good}}
+    test("doesn't raise error") {should_not_raise{@test_class.good}}
 
-    #test("error expected") do
-      #should_raise do
-        #@test_class.errors
-      #end
-    #end 
+    test("raises an error") do
+      should_raise do
+        @test_class.errors
+      end
+    end 
+
+    test("unexpected error test"){@test_class.errors}
 
     #test ("error with message"){should_raise(RuntimeError){@test_class.runtime_error}.with_message(/An error/)}
 

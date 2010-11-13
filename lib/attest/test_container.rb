@@ -1,5 +1,8 @@
 module Attest
   class TestContainer
+
+    attr_reader :description
+
     def initialize(description)
       @description = description
       @test_objects = []
@@ -10,7 +13,7 @@ module Attest
     end
 
     def execute_all
-      puts description
+      Attest.output_writer.before_context(self)
       @test_objects.each do |test_object|
         test_object.run
       end

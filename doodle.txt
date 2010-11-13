@@ -47,7 +47,7 @@ most basic
 - work out what methods need to be on the output writer class and hook them in where tests are run
 - work out what other expectations need to be on the execution context intself (should_raise, should_be_true)
 - work out how to easily implement negation of the positive expectations on the execution context
-- hook in configuration into the framework
+- hook in configuration into the framework DONE
 - make it configurable via configuration and command line the name of the method that begins a test context (this_tests)
 - make it configurable via config and command line the name of the method that would produce an expectation object (itself or should), these are the only methods that extend core for now
 - try to execute existing method missing and if still an error then execute my method missing and fall back to existing method missing, so that don't accidentally kill method missing functionality that people wrote themselves

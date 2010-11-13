@@ -1,10 +1,12 @@
 module Attest
   class TestObject
+    attr_reader :description, :results
     def initialize(description, test_block)
       @description = description
       @test_block = test_block
       @before = nil
       @after = nil
+      @results = nil
     end
 
     def add_setup(block)
@@ -16,12 +18,10 @@ module Attest
     end
 
     def run
-      #evaling the block should produce a result which will be either an Itself object or not
-      #if it is not an itself object then it should be wrapped in an itself object, it can be an error in which case the error should be wraped
-      #it may be the fact that none of the should methods were called in which case it may be treated as a success
-      
+      Attest.output_writer.before_test(self)
+      error = nil
+      context = Attest::ExecutionContext.new
       begin
-       context = Attest::ExecutionContext.new
        Object.class_eval do
          define_method :itself do
            subject = self
@@ -33,16 +33,13 @@ module Attest
        context.instance_eval(&@test_block)
        context.instance_eval(&@after) if @after
       rescue => e
-        puts "ERROR!!!!!"
-        puts e.message
-        puts e.backtrace.inspect
+        error = e
       ensure
-        overall = nil
-        context.results.each do |result| 
-          overall = result if !result.success?
-        end
-        puts " - #{description} #{'FAIL' if overall}"
+        @results = context.results
+        @results << Attest::ExpectationResult.new(:error => error) if error
       end
+
+
       #puts " - #{description} #{extra_output}"
       #if error
        #puts "     #{e.class}: #{e.message}"
@@ -51,6 +48,7 @@ module Attest
          #puts "     #{line} "
        #end
       #end
+      Attest.output_writer.after_test(self)
     end
   end
 end
