@@ -36,7 +36,9 @@ module Attest
         error = e
       ensure
         @results = context.results
-        @results << Attest::ExpectationResult.new(:error => error) if error
+        result = Attest::ExpectationResult.new(:unexpected_error => error)
+        result.error
+        @results << result if error
       end
 
 

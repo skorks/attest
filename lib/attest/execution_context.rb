@@ -38,13 +38,14 @@ module Attest
 
     def with_message(regex)
       result = @results.last
-      raise Attest::AttestError.new "#{current_method} can't be called on that object" if result.context != "should_raise"
-      if(!(result.actual_error_object.message =~ regex) && result.success?)
-        #an error message mismatch
-        result.failure
-        #result.expected_error_message = regex
-        #result.context = current_method
-      end
+      #raise Attest::AttestError.new "#{current_method} can't be called on that object" if result.context != "should_raise"
+      #if(!(result.actual_error_object.message =~ regex) && result.success?)
+        ##an error message mismatch
+        #result.failure
+        ##result.expected_error_message = regex
+        ##result.context = current_method
+      #end
+      self
     end
 
     def should_fail

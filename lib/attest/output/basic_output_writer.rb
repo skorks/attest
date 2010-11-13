@@ -18,10 +18,13 @@ module Attest
       end
 
       def after_test(test_object)
-        test_status = nil
+        status = nil
+        #puts
+        #puts test_object.results.size
         test_object.results.each do |result|
-          test_status = result.status if !result.success?
+          status = result.status if !result.success?
         end
+        print " [#{status.upcase}]" if status
         puts
       end
 
