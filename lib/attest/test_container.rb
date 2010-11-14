@@ -1,7 +1,7 @@
 module Attest
   class TestContainer
 
-    attr_reader :description
+    attr_reader :description, :test_objects
 
     def initialize(description)
       @description = description
@@ -17,6 +17,7 @@ module Attest
       @test_objects.each do |test_object|
         test_object.run
       end
+      Attest.output_writer.after_context
     end
   end
 end

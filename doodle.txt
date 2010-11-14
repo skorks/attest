@@ -32,7 +32,7 @@ most basic
 - ability to specify multiple setups and teardowns and register specific setups and teardowns to run for specific tests
 - ability to magically include module in an object and test its methods while it is included in an object
 - should provide the error message if test errors out  DONE
-- should provide the error trace if a test has errored
+- should provide the error trace if a test has errored DONE
 - all objects have access to a should_raise expectation DONE
 - should be able to produce a summary of execution at the end, with count of successes, failures and errors
 - should be able to produce shorthand output while running with a summary at the end (test unit style shorthand), controlled by cli parameter
