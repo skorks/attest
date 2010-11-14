@@ -34,18 +34,18 @@ most basic
 - should provide the error message if test errors out  DONE
 - should provide the error trace if a test has errored DONE
 - all objects have access to a should_raise expectation DONE
-- should be able to produce a summary of execution at the end, with count of successes, failures and errors
+- should be able to produce a summary of execution at the end, with count of successes, failures and errors DONE
 - should be able to produce shorthand output while running with a summary at the end (test unit style shorthand), controlled by cli parameter
 - should have a should_fail expectation, possibly for tests that haven't been implemented aliased to not_implemented, not_implemented_failing, not_implemented_passing
-- should have a should_be_true expectation type for more flexibility
-- don't pollute global objects with methods, instead Attest.this_tests do end to initiate the context, within there objects are augmented by methods, but outside of it they are not
-- you can require the library without augmenting objects with extra methods, only when you call do objects get augmented and should test for the fact that a method we're trying to augment with already exists, alternatively, don't ever require this library directly then we don't have an issue
+- should have a should_be_true expectation type for more flexibility DONE
+- test that are defined without a block should be tagged as not implemented in the output and in the summary
+- you can require the library without augmenting objects with extra methods, only when you call do objects get augmented and should test for the fact that a method we're trying to augment with already exists, alternatively, don't ever require this library directly then we don't have an issue DONE
 
-- the should methods should return an expectation object (itself)
-- when deliberately failing should not actually print an error but should be a failure with a message instead
-- the output writer should be a separate class to allow for different writers
-- work out what methods need to be on the output writer class and hook them in where tests are run
-- work out what other expectations need to be on the execution context intself (should_raise, should_be_true)
+- the should methods should return an expectation object (itself) DONE
+- when deliberately failing should not actually print an error but should be a failure with a message instead DONE
+- the output writer should be a separate class to allow for different writers DONE
+- work out what methods need to be on the output writer class and hook them in where tests are run DONE
+- work out what other expectations need to be on the execution context intself (should_raise, should_be_true) DONE
 - work out how to easily implement negation of the positive expectations on the execution context
 - hook in configuration into the framework DONE
 - make it configurable via configuration and command line the name of the method that begins a test context (this_tests)
@@ -71,6 +71,7 @@ most basic
 - test free floating methods that don't belong to a class or a module
 - an anonymous test without description similat to the test pile below but still for only one thing
 - a test pile method where you want to test random methods or do lots of assertions at the same time without having to think of a name for it, should introspect somehow what is/will be run and work out descriptions from that
+- ability to define matchers as lambdas would be good i.e. obj.should_be happy where happy is a lambda that returns a boolean value
 
 
 
