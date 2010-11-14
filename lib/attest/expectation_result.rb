@@ -1,5 +1,6 @@
 module Attest
   class ExpectationResult
+    attr_reader :attributes
     def initialize(attributes={})
       @outcome = nil
       @attributes = attributes

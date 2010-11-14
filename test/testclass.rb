@@ -57,21 +57,14 @@ if ENV["attest"]
 
     test("unexpected error test"){@test_class.errors}
 
-    #test ("error with message"){should_raise(RuntimeError){@test_class.runtime_error}.with_message(/An error/)}
+    test("error with message successful test"){should_raise(RuntimeError){@test_class.runtime_error}.with_message(/An error/)}
 
-    #test "set_var" do
-      #@test_class.set_var(6) 
-      #@test_class.var.itself.should_not_equal nil
-    #end
+    test("add two to an integer") { should_be_true{ @test_class.add_two(3) == 5 } }
 
-    #test("add_two") { @test_class.add_two(3).itself.should_equal 5 }
+    test("add two with incorrect result in test") { should_be_true{ @test_class.add_two(5) == 8 } } 
 
-    #test("add_two 2") { @test_class.add_two(5).itself.should_equal 8 } 
-
-    #test("multiply works") {@test_class.multiply(2,3).itself.should_equal 6}
+    test("multiply two integers") {should_be_true{ @test_class.multiply(2,3) == 6 }}
     
-    #test("errors test"){@test_class.errors}
-
-    #test("for truth"){should_be_true{@test_class.good}}
+    test("truth expectation should be fulfilled"){should_be_true{@test_class.good}}
   end
 end

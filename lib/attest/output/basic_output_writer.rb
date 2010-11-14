@@ -18,13 +18,20 @@ module Attest
       end
 
       def after_test(test_object)
-        status = nil
-        #puts
-        #puts test_object.results.size
+        relevant_result = nil
         test_object.results.each do |result|
-          status = result.status if !result.success?
+          relevant_result = result if !result.success?
         end
-        print " [#{status.upcase}]" if status
+        print " [#{relevant_result.status.upcase}]" if relevant_result
+        if relevant_result && relevant_result.error?
+          e = relevant_result.attributes[:unexpected_error]
+          2.times { puts } 
+          puts "    #{e.class}: #{e.message}"
+          e.backtrace.each do |line|
+            break if line =~ /lib\/attest/
+              puts "    #{line} "
+          end
+        end
         puts
       end
 
