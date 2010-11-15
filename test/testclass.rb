@@ -66,5 +66,13 @@ if ENV["attest"]
     test("multiply two integers") {should_be_true{ @test_class.multiply(2,3) == 6 }}
     
     test("truth expectation should be fulfilled"){should_be_true{@test_class.good}}
+    
+    test "running without setup", nosetup do
+      should_raise(NoMethodError){@test_class.good}
+    end
+  end
+
+  this_tests "random methods" do
+    test("some_method"){should_be_true{some_method("abc") == "cba"}}
   end
 end

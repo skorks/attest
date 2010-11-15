@@ -90,10 +90,12 @@ most basic
 - add functionality to allow a directory with ruby files to be parsed for tests and all tests to be run if any are found, non-recursively DONE
 - add functionality to allow a directory to be parsed for tests recursively DONE
 - allow multiple context within the same file to work properly and execute properly DONE
-- make sure can test methods in a module not just in a class
-- make sure can test class methods
-- make sure can test methods that don't belong to a module or a class
-- make it so that tests can take an options hash and one of the options should be to not run setup or teardown for the test, perhaps make it not part of the opts hash
+- make sure can test methods in a module not just in a class, magically included in a class DONE
+- make sure can test class methods DONE
+- make sure can test methods that don't belong to a module or a class DONE
+- when multiple contexts in the same file, only print the name of the file to the command line once DONE
+- don't print summaries after every context, only a totals summary at the end DONE
+- make it so that tests can take an options hash and one of the options should be to not run setup or teardown for the test, perhaps make it not part of the opts hash DONE
 - once all the above are done, create some RDOC documentation to describe the basic features and usage of the framework
 - also fix up the description and extended description, make sure everything looks proper as far as doco is concerned on github etc.
 - if everything is ok at this point, do a first public release of the gem (give it an appropriately betaish version number)

@@ -1,6 +1,7 @@
 module Attest
   class TestObject
     attr_reader :description, :results
+    attr_accessor :nosetup
     def initialize(description, test_block)
       @description = description
       @test_block = test_block
@@ -29,9 +30,9 @@ module Attest
            context
          end
        end
-       context.instance_eval(&@before) if @before
+       context.instance_eval(&@before) if @before && !nosetup
        context.instance_eval(&@test_block)
-       context.instance_eval(&@after) if @after
+       context.instance_eval(&@after) if @after && !nosetup
       rescue => e
         error = e
       ensure

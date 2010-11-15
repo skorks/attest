@@ -1,9 +1,10 @@
 module Attest
   class TestContainer
 
-    attr_reader :description, :test_objects
+    attr_reader :description, :test_objects, :file
 
     def initialize(description)
+      @file = Attest.current_file
       @description = description
       @test_objects = []
     end

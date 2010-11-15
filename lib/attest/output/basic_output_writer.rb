@@ -9,8 +9,9 @@ module Attest
       end
 
       def before_context(container)
+        previous_container = @containers.last
         @containers << container
-        puts "#{Attest.current_file}:"
+        puts "#{container.file}:" unless previous_container && previous_container.file == container.file
         puts " #{ container.description }"
       end
 
@@ -38,22 +39,6 @@ module Attest
 
       def after_context
         puts 
-        tests, success, failure, error = 0, 0, 0, 0
-        container = @containers.last
-        container.test_objects.each do |test_object|
-          tests += 1
-          test_object.results.each do |result|
-            if result.success?
-              success += 1
-            elsif result.failure?
-              failure += 1
-            else
-              error += 1
-            end
-          end
-        end
-        puts "Ran #{tests} tests: #{success} successful, #{failure} failed, #{error} errors"
-        puts
       end
 
       def summary
@@ -73,7 +58,8 @@ module Attest
             end
           end
         end
-        puts "Total #{tests} tests: #{success} successful, #{failure} failed, #{error} errors"
+        puts
+        puts "Ran #{tests} tests: #{success} successful, #{failure} failed, #{error} errors"
       end
 
       def after_everything
