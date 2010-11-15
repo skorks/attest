@@ -80,7 +80,7 @@ most basic
 - potentially later on think about doing nested contexts as well as shared contexts
 
 
-- kill the This class and turn it back into a this_tests method on Kernel
+- kill the This class and turn it back into a this_tests method on Kernel Done
 - merge everything into Master
 - branch master into a Hooks branch and leave to have a look at later
 - remove the hooks stuff from master

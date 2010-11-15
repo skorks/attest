@@ -30,7 +30,7 @@ def some_method(x)
 end
 
 if ENV["attest"]
-  This.will_test TestClass do
+  this_tests TestClass do
     before_all do 
       @test_class = TestClass.new
     end
