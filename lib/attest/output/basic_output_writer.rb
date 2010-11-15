@@ -10,11 +10,12 @@ module Attest
 
       def before_context(container)
         @containers << container
-        puts container.description
+        puts "#{Attest.current_file}:"
+        puts " #{ container.description }"
       end
 
       def before_test(test_object)
-        print " - #{test_object.description}"
+        print "  - #{test_object.description}"
       end
 
       def after_test(test_object)
@@ -26,10 +27,10 @@ module Attest
         if relevant_result && relevant_result.error?
           e = relevant_result.attributes[:unexpected_error]
           2.times { puts } 
-          puts "    #{e.class}: #{e.message}"
+          puts "     #{e.class}: #{e.message}"
           e.backtrace.each do |line|
             break if line =~ /lib\/attest/
-              puts "    #{line} "
+              puts "     #{line} "
           end
         end
         puts

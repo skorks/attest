@@ -7,9 +7,7 @@ require "singleton"
 require 'attest/config'
 require 'attest/core_ext/kernel'
 require 'attest/core_ext/object'
-require 'attest/hooks/hooks'
 
-require 'attest/this'
 require 'attest/expectation_result'
 require 'attest/test_container'
 require 'attest/test_object'

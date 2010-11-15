@@ -2,7 +2,7 @@ module Attest
   class Config
     include Singleton
 
-    attr_accessor :output_writer
+    attr_accessor :output_writer, :current_file
 
     def initialize
       @output_writer = Attest::Output::BasicOutputWriter.new

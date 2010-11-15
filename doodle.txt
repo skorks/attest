@@ -80,12 +80,12 @@ most basic
 - potentially later on think about doing nested contexts as well as shared contexts
 
 
-- kill the This class and turn it back into a this_tests method on Kernel Done
+- kill the This class and turn it back into a this_tests method on Kernel DONE
 - merge everything into Master DONE
-- branch master into a Hooks branch and leave to have a look at later
-- remove the hooks stuff from master
+- branch master into a Hooks branch and leave to have a look at later DONE
+- remove the hooks stuff from master DONE
+- add the file in which the tests were found to the output of the tests DONE
 - add functionality to allow a directory with ruby files to be parsed for tests and all tests to be run if any are found, non-recursively
-- add the file in which the tests were found to the output of the tests
 - add functionality to allow a directory to be parsed for tests recursively
 - allow redefining of the name of the main context method through the command line(e.g. rather than this_tests allow person to name it whatever they want)
 - allow multiple context within the same file to work properly and execute properly

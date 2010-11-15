@@ -20,6 +20,7 @@ Trollop::die :file, "Must exist" unless File.exist?(opts[:file]) if opts[:file]
 
 Attest.configure do |config|
   config.output_writer = Attest::Output::BasicOutputWriter.new
+  config.current_file = opts[:file]
 end
 
 a = load opts[:file]
