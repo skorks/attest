@@ -6,28 +6,15 @@ module Attest
       @attributes = attributes
     end
 
-    def success
-      @outcome = current_method
-    end
-
-    def failure
-      @outcome = current_method
-    end
-
-    def error
-      @outcome = current_method
-    end
-    
-    def success?
-      current_method.chop == @outcome
-    end
-
-    def error?
-      current_method.chop == @outcome
-    end
-
-    def failure?
-      current_method.chop == @outcome
+    [:success, :failure, :error].each do |status|
+      eval <<-EOT
+        def #{status}
+          @outcome = current_method
+        end
+        def #{status}?
+          current_method.chop == @outcome
+        end
+      EOT
     end
 
     def status
