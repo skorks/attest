@@ -7,5 +7,6 @@ module Attest
     def initialize
       @output_writer = Attest::Output::BasicOutputWriter.new
     end
+
   end
 end

@@ -39,6 +39,26 @@ module Attest
       def after_context
         puts 
         tests, success, failure, error = 0, 0, 0, 0
+        container = @containers.last
+        container.test_objects.each do |test_object|
+          tests += 1
+          test_object.results.each do |result|
+            if result.success?
+              success += 1
+            elsif result.failure?
+              failure += 1
+            else
+              error += 1
+            end
+          end
+        end
+        puts "Ran #{tests} tests: #{success} successful, #{failure} failed, #{error} errors"
+        puts
+      end
+
+      def summary
+        return unless @containers.size > 1
+        tests, success, failure, error = 0, 0, 0, 0
         @containers.each do |container|
           container.test_objects.each do |test_object|
             tests += 1
@@ -53,7 +73,7 @@ module Attest
             end
           end
         end
-        puts "Ran #{tests} tests: #{success} successful, #{failure} failed, #{error} errors"
+        puts "Total #{tests} tests: #{success} successful, #{failure} failed, #{error} errors"
       end
 
       def after_everything

@@ -78,6 +78,8 @@ most basic
 - a rake task to run the tests instead of a separate executable, configuration should be done through the rake task
 - ability to mock stuff out using some of the popular mocking frameworks, ability to plug in different one by config, including my own by default which hasn't been written yet
 - potentially later on think about doing nested contexts as well as shared contexts
+- some way to potentially work out if files are ruby even if no .rb extension or alternatively pass a glob on the command line to match files
+- allow redefining of the name of the main context method through the command line(e.g. rather than this_tests allow person to name it whatever they want)
 
 
 - kill the This class and turn it back into a this_tests method on Kernel DONE
@@ -85,10 +87,9 @@ most basic
 - branch master into a Hooks branch and leave to have a look at later DONE
 - remove the hooks stuff from master DONE
 - add the file in which the tests were found to the output of the tests DONE
-- add functionality to allow a directory with ruby files to be parsed for tests and all tests to be run if any are found, non-recursively
-- add functionality to allow a directory to be parsed for tests recursively
-- allow redefining of the name of the main context method through the command line(e.g. rather than this_tests allow person to name it whatever they want)
-- allow multiple context within the same file to work properly and execute properly
+- add functionality to allow a directory with ruby files to be parsed for tests and all tests to be run if any are found, non-recursively DONE
+- add functionality to allow a directory to be parsed for tests recursively DONE
+- allow multiple context within the same file to work properly and execute properly DONE
 - make sure can test methods in a module not just in a class
 - make sure can test class methods
 - make sure can test methods that don't belong to a module or a class
