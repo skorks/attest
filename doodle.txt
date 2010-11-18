@@ -93,6 +93,7 @@ most basic
 - don't print summaries after every context, only a totals summary at the end DONE
 - make it so that tests can take an options hash and one of the options should be to not run setup or teardown for the test, perhaps make it not part of the opts hash DONE
 - should be able to specify a test without a body for it to appear in the output as pending 
+- refactor all example code so it is a bit nicer and more representative
 - once all the above are done, create some RDOC documentation to describe the basic features and usage of the framework
 - also fix up the description and extended description, make sure everything looks proper as far as doco is concerned on github etc.
 - if everything is ok at this point, do a first public release of the gem (give it an appropriately betaish version number)
@@ -107,7 +108,6 @@ next release
 - create a test/unit style output writer and allow it to be configured
 - test out with method missing defined on the class, does it still work ok
 - make sure if method missing is defined it is tried out first before the new_method_missing on kernel takes over
-- refactor all example code so it is a bit nicer and more representative
 
 next release 2
 
@@ -120,3 +120,4 @@ next release 2
 next release 3
 - come up with some more useful expectations, both on object and as standalone methods of test
 - look into rails stuff regarding expectations and idioms etc
+- should somehow be able to require all the necessary ruby files that are needed when a test is run for the test not to fail, e.g. because ruby files depend on other ruby files
