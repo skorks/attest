@@ -51,9 +51,7 @@ most basic
 - make it configurable via configuration and command line the name of the method that begins a test context (this_tests)
 - make it configurable via config and command line the name of the method that would produce an expectation object (itself or should), these are the only methods that extend core for now
 - try to execute existing method missing and if still an error then execute my method missing and fall back to existing method missing, so that don't accidentally kill method missing functionality that people wrote themselves
-- each test should maintain information about its successes, fails and errors so that output writer can grab the info from them
 - produce a short format output writer as well as a basic long format one to make sure that have ability to hook in different output writers
-- ability to hook in different output writers should be a configuration and command line parameter
 - should be able to configure attest via file (attest.config in same directory, or give location of config as command line param, or via .attest file in home dir or via a configuration block in a file under test, each level can override the other)
 - what expectation methods are actaully needed on the objects in the test methods themselves (should_be_true, should_equal etc) work out negation for these ones as well 
 - what methods should the expectation object have and how to allow to chain the methods and have everything work 
@@ -61,8 +59,6 @@ most basic
 - all test methods should have an id and if one is not provided it should be generated 
 - before and after blocks should be able to refer to tests they are targeting by the test id
 - test should be able to specify if they don't want the befores and afters to be run for them (this will take precedence over everything else)
-- should be able to have multiple test contexts in the same file, not nested though 
-- should be able to specify a test without a body for it to appear in the output as pending 
 - need to have a should_fail execution context method, with alias of fail  
 - should be able to call should_be empty on an object where empty is a method on the object, should_equal size 5 where size is a method on the object, i.e. boolean method on the objects gets used as a predicate
 - a expectation that this object as the same as another object, i.e. exactly the same object not an equal one
@@ -96,7 +92,31 @@ most basic
 - when multiple contexts in the same file, only print the name of the file to the command line once DONE
 - don't print summaries after every context, only a totals summary at the end DONE
 - make it so that tests can take an options hash and one of the options should be to not run setup or teardown for the test, perhaps make it not part of the opts hash DONE
+- should be able to specify a test without a body for it to appear in the output as pending 
 - once all the above are done, create some RDOC documentation to describe the basic features and usage of the framework
 - also fix up the description and extended description, make sure everything looks proper as far as doco is concerned on github etc.
 - if everything is ok at this point, do a first public release of the gem (give it an appropriately betaish version number)
 - make sure the gem is available through rubyforge as well as wherever else is appropriate, e.g. gemcutter
+
+next release
+
+- integrate mocha so that can mock using mocha 
+- output calculations of expectations not just tests
+- allow expectations to be specified directly as tests (perhaps failures should contain the block that has failed)
+- create a failures only output writer and allow it to be configured
+- create a test/unit style output writer and allow it to be configured
+- test out with method missing defined on the class, does it still work ok
+- make sure if method missing is defined it is tried out first before the new_method_missing on kernel takes over
+- refactor all example code so it is a bit nicer and more representative
+
+next release 2
+
+- write and integrate own test double framework (look at rr for syntax suggestions)
+- create some tests using the framework itself around the framework classes (minimal test suite)
+- allow expectations to be made on objects themselves
+- allow for tests to be given ids as well as descriptions
+- allow for multiple before and after blocks should specify which test to run this block for using ids of tests as parameters
+
+next release 3
+- come up with some more useful expectations, both on object and as standalone methods of test
+- look into rails stuff regarding expectations and idioms etc
