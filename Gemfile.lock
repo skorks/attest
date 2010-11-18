@@ -7,6 +7,9 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
+    mocha (0.9.9)
+      rake
+    rake (0.8.7)
     trollop (1.16.2)
 
 PLATFORMS
@@ -14,4 +17,5 @@ PLATFORMS
 
 DEPENDENCIES
   attest!
+  mocha
   trollop

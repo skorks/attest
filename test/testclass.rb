@@ -39,6 +39,12 @@ if ENV["attest"]
       @test_class = nil
     end
 
+    test("mocha", nosetup) do
+      test_class = TestClass.new
+      test_class.expects(:add_two).with(5).returns(2)
+      should_be_true {test_class.add_two(5) == 2}
+    end
+
     test("multiple expectations in one test") do
       @test_class.set_var(6)
       should_be_true{@test_class.var == 6}

@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alan Skorkin"]
-  s.date = %q{2010-11-08}
+  s.date = %q{2010-11-18}
   s.default_executable = %q{attest}
   s.description = %q{Attest allows you to define tests inline and treat classes modules and random methods as first class citizens}
   s.email = %q{alan@skorks.com}
@@ -31,6 +31,19 @@ Gem::Specification.new do |s|
      "bin/attest",
      "doodle.txt",
      "lib/attest.rb",
+     "lib/attest/attest_error.rb",
+     "lib/attest/config.rb",
+     "lib/attest/core_ext/kernel.rb",
+     "lib/attest/core_ext/object.rb",
+     "lib/attest/execution_context.rb",
+     "lib/attest/expectation_result.rb",
+     "lib/attest/itself.rb",
+     "lib/attest/output/basic_output_writer.rb",
+     "lib/attest/test_container.rb",
+     "lib/attest/test_object.rb",
+     "lib/attest/test_parser.rb",
+     "test/another_testclass.rb",
+     "test/more/third_test.rb",
      "test/testclass.rb"
   ]
   s.homepage = %q{http://github.com/skorks/attest}
@@ -39,7 +52,9 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{An inline testing framework}
   s.test_files = [
-    "test/testclass.rb"
+    "test/more/third_test.rb",
+     "test/another_testclass.rb",
+     "test/testclass.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -48,11 +63,14 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<trollop>, [">= 0"])
+      s.add_development_dependency(%q<mocha>, [">= 0"])
     else
       s.add_dependency(%q<trollop>, [">= 0"])
+      s.add_dependency(%q<mocha>, [">= 0"])
     end
   else
     s.add_dependency(%q<trollop>, [">= 0"])
+    s.add_dependency(%q<mocha>, [">= 0"])
   end
 end
 

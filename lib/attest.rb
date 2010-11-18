@@ -3,6 +3,8 @@ require "bundler"
 Bundler.setup(:default)
 Bundler.require
 
+require "mocha_standalone"
+
 require "singleton"
 require 'attest/config'
 require 'attest/core_ext/kernel'
