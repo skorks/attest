@@ -100,3 +100,10 @@ most basic
 - also fix up the description and extended description, make sure everything looks proper as far as doco is concerned on github etc.
 - if everything is ok at this point, do a first public release of the gem (give it an appropriately betaish version number)
 - make sure the gem is available through rubyforge as well as wherever else is appropriate, e.g. gemcutter
+
+
+
+Mocha Poc
+- need to catch all the mocha errors and treat the failure as a failure rather than an error, unless there is a legitimate mocha error that should be an error
+- need to be able to configure via commandline to use mocha 
+
