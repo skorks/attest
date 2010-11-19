@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.authors = ["Alan Skorkin"]
   s.date = %q{2010-11-08}
   s.default_executable = %q{attest}
-  s.description = %q{Attest allows you to define tests inline and treat classes modules and random methods as first class citizens}
+  s.description = %q{Attest allows you to define spec-like tests inline (within the same file as your actual code) which means almost non-existant overheads to putting some tests around your code. It also tries to not be too prescriptive regarding the 'right' way to test. You want to test private methods - go ahead, access unexposed instance variables - no worries, pending and disabled tests are first class citizens. Don't like the output format, use a different one or write your own. Infact you don't even have to define you tests inline if you prefer the 'traditional' way, separate directory and all. You should be allowed to test your code the way you want to, not the way someone else says you have to!}
   s.email = %q{alan@skorks.com}
   s.executables = ["attest"]
   s.extra_rdoc_files = [
@@ -37,7 +37,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{An inline testing framework}
+  s.summary = %q{An inline unit testing/spec framework that doesn't force you to follow arbitrary rules}
   s.test_files = [
     "test/testclass.rb"
   ]

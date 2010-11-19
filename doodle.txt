@@ -92,7 +92,7 @@ most basic
 - when multiple contexts in the same file, only print the name of the file to the command line once DONE
 - don't print summaries after every context, only a totals summary at the end DONE
 - make it so that tests can take an options hash and one of the options should be to not run setup or teardown for the test, perhaps make it not part of the opts hash DONE
-- should be able to specify a test without a body for it to appear in the output as pending 
+- should be able to specify a test without a body for it to appear in the output as pending DONE
 - refactor all example code so it is a bit nicer and more representative
 - once all the above are done, create some RDOC documentation to describe the basic features and usage of the framework
 - also fix up the description and extended description, make sure everything looks proper as far as doco is concerned on github etc.
@@ -122,3 +122,17 @@ next release 3
 - come up with some more useful expectations, both on object and as standalone methods of test
 - look into rails stuff regarding expectations and idioms etc
 - should somehow be able to require all the necessary ruby files that are needed when a test is run for the test not to fail, e.g. because ruby files depend on other ruby files
+
+
+
+what to say in readme
+give an example of usage
+talk about how to define tests inline
+talk about how to execute the tests in one file or directory etc
+list the currently supported expectations
+talk about pendind tests
+talk about the fact that other output writers are coming
+talk about the fact that you can disable setup for particular tests
+talk about how to test modules within an included class
+no nested context as yet, but can define multiple top level ones, no shared tests or contexts as yet
+mention the examples directory but it is currently crappy
