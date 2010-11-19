@@ -43,7 +43,7 @@ module Attest
 
       def summary
         return unless @containers.size > 1
-        tests, success, failure, error = 0, 0, 0, 0
+        tests, success, failure, error, pending = 0, 0, 0, 0, 0
         @containers.each do |container|
           container.test_objects.each do |test_object|
             tests += 1
@@ -52,14 +52,16 @@ module Attest
                 success += 1
               elsif result.failure?
                 failure += 1
-              else
+              elsif result.error?
                 error += 1
+              else
+                pending += 1
               end
             end
           end
         end
         puts
-        puts "Ran #{tests} tests: #{success} successful, #{failure} failed, #{error} errors"
+        puts "Ran #{tests} tests: #{success} successful, #{failure} failed, #{error} errors, #{pending} pending"
       end
 
       def after_everything

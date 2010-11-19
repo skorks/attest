@@ -108,6 +108,7 @@ next release
 - create a test/unit style output writer and allow it to be configured
 - test out with method missing defined on the class, does it still work ok
 - make sure if method missing is defined it is tried out first before the new_method_missing on kernel takes over
+- should be able to disable a test so that it is not executed, but is listed as disabled in the output
 
 next release 2
 

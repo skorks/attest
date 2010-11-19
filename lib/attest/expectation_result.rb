@@ -6,7 +6,7 @@ module Attest
       @attributes = attributes
     end
 
-    [:success, :failure, :error].each do |status|
+    [:success, :failure, :error, :pending].each do |status|
       eval <<-EOT
         def #{status}
           @outcome = current_method

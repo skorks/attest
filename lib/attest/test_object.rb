@@ -31,27 +31,29 @@ module Attest
          end
        end
        context.instance_eval(&@before) if @before && !nosetup
-       context.instance_eval(&@test_block)
+       context.instance_eval(&@test_block) if @test_block
        context.instance_eval(&@after) if @after && !nosetup
       rescue => e
         error = e
       ensure
         @results = context.results
-        result = Attest::ExpectationResult.new(:unexpected_error => error)
-        result.error
-        @results << result if error
+        add_unexpected_error_result(error) if error
+        add_pending_result unless @test_block
       end
-
-
-      #puts " - #{description} #{extra_output}"
-      #if error
-       #puts "     #{e.class}: #{e.message}"
-       #e.backtrace.each do |line|
-         #break if line =~ /#{__FILE__}/
-         #puts "     #{line} "
-       #end
-      #end
       Attest.output_writer.after_test(self)
+    end
+
+    private
+    def add_unexpected_error_result(error)
+      result = Attest::ExpectationResult.new(:unexpected_error => error)
+      result.error
+      @results << result
+    end
+
+    def add_pending_result
+      result = Attest::ExpectationResult.new
+      result.pending
+      @results << result
     end
   end
 end
