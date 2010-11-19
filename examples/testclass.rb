@@ -39,6 +39,8 @@ if ENV["attest"]
       @test_class = nil
     end
 
+    test("a pending test")
+
     test("multiple expectations in one test") do
       @test_class.set_var(6)
       should_be_true{@test_class.var == 6}
