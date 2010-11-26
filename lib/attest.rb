@@ -1,8 +1,8 @@
 require "rubygems"
 require "bundler"
 Bundler.setup(:default)
-Bundler.require
 
+require "trollop"
 require "singleton"
 require 'attest/config'
 require 'attest/core_ext/kernel'
