@@ -99,6 +99,10 @@ most basic
 - if everything is ok at this point, do a first public release of the gem (give it an appropriately betaish version number)
 - make sure the gem is available through rubyforge as well as wherever else is appropriate, e.g. gemcutter
 
+
+- when committing need to make sure there is a valid gemspec
+- when used with bundler dependencies like trollop don't come trhough so can't execute attest properly get an error instead need to detect if being used via bundler and do a bundle setup etc.
+
 next release
 
 - integrate mocha so that can mock using mocha 
