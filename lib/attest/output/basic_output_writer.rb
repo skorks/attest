@@ -42,7 +42,7 @@ module Attest
       end
 
       def summary
-        return unless @containers.size > 1
+        return unless @containers.size >= 1
         tests, success, failure, error, pending = 0, 0, 0, 0, 0
         @containers.each do |container|
           container.test_objects.each do |test_object|
