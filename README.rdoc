@@ -2,19 +2,146 @@
 
     attest (vb) - to affirm the correctness or truth of
 
-Attest allows you to define spec-like tests inline (within the same file as your actual code) which means almost non-existant overheads to putting some tests around your code. It also tries to not be too prescriptive regarding the 'right' way to test. You want to test private methods - go ahead, access unexposed instance variables - no worries, pending and disabled tests are first class citizens. Don't like the output format, use a different one or write your own. Infact you don't even have to define your tests inline if you prefer the 'traditional' way, separate directory and all. You should be allowed to test your code the way you want to, not the way someone else says you have to!
+Attest allows you to define spec-like tests inline (within the same file as your actual code) which means almost non-existant overheads to putting some tests around your code. Of course that is just a feature that I wanted, you can just as easily put the tests into a separate file for a more traditional experience. Overall, attest tries to not be too prescriptive regarding the 'right' way to test. You want to test private methods - go ahead, access unexposed instance variables - no worries, pending and disabled tests are first class citizens. Don't like the output format, use a different one or write your own (at least that the plan for the future, currently there is only one output writer :P). You should be allowed to test your code the way you want to, not the way someone else says you have to!
 
 == A Quick Example
 
+Currently the functionality is pretty minimal, almost fully described by the example below. But as you can see the features are complete enough to make it a fully fledged testing framework. The upside is, there is not a lot to remember/learn :P. Anyways, here is an example:
+
+  class MagicCalculator 
+    def remember_value(value)
+      @value_in_memory = value
+    end
+
+    def increment(value)
+      value + 1
+    end
+
+    def divide(numerator, denominator)
+      numerator/denominator
+    end
+
+    def add(value1, value2)
+      value1 + value2
+    end
+
+    private
+    def multiply(x, y)
+      x * y
+    end
+  end
+
+  if ENV["attest"]
+    this_tests MagicCalculator do
+      before_all{@calculator = MagicCalculator.new}
+      after_all{@calculator = nil}
+
+      test("a pending test")
+      test("deliberately fail the test"){should_fail}
+      test("a successful empty test"){}
+      test("should NOT raise an error") {should_not_raise{@calculator.increment 4}}
+      test("it should raise an error, don't care what kind") {should_raise {@calculator.divide 5, 0}}
+      test("it should raise a ZeroDivisionError error with a message"){should_raise(ZeroDivisionError){@calculator.divide 5, 0}.with_message(/divided by.*/)}
+      test("adding 5 and 2 does not equal 8") { should_not_be_true{ @calculator.add(5,2) == 8 } } 
+      test("this test will be an error when non-existant method called") {should_be_true{ @calculator.non_existant }}
+      test("should be able to call a private method like it was public"){should_be_true{@calculator.multiply(2,2) == 4}}
+
+      test "access an instance variable without explicitly exposing it" do
+        @calculator.remember_value(5)
+        should_be_true {@calculator.value_in_memory == 5}
+      end
+
+      test("multiple expectations in one test") do
+        should_not_raise{@calculator.increment 4}
+        should_raise{ @calculator.non_existant }
+      end
+      test("should not have access to calculator instance since run without setup", nosetup){should_be_true{@calculator == nil}}
+    end
+  end
+
+Here are a few things to note. All of that stuff would live in the same file and you would execute it in the following fashion:
+
+attest -f my_ruby_file.rb
+
+The if statement with the ENV is necessary so that the test code is comlpetely ignored unless you're running it via the 'attest' executable. If anyone can think of a better way of doing it, I am open to ideas. If you have a bunch of files that live in a directory and you want to run the test that live in all of them:
+
+attest -d directory_with_ruby_files
+
+As per usual, to get some help:
+
+attest --help
+
+If your file needs other ruby files for it to function (as they often do :)), you will need to set up the requires yourself within the 'if ENV' block. I'll give it more smarts in this area at a later date.
+
+If you want to put the tests in a separate file, you can do that, but you will still need to wrap them in an 'if ENV' block and set up the 'requires' yourself as well, once again more smarts will hopefully appear at a later date.
+
+Currently the output produces when running will look something like this:
+
+  >~/projects/attest$ bin/attest -f examples/magic_calculator.rb 
+  /home/yellow/projects/attest/examples/magic_calculator.rb:
+   MagicCalculator
+    - a pending test [PENDING]
+    - deliberately fail the test [FAILURE]
+    - a successful empty test
+    - should NOT raise an error
+    - it should raise an error, don't care what kind
+    - it should raise a ZeroDivisionError error with a message
+    - adding 5 and 2 does not equal 8
+    - this test will be an error when non-existant method called [ERROR]
+
+       NoMethodError: undefined method `non_existant' for #<MagicCalculator:0x00000003097b60>
+
+    - should be able to call a private method like it was public
+    - access an instance variable without explicitly exposing it
+    - multiple expectations in one test
+    - should not have access to calculator instance since run without setup
+
+
+  Ran 12 tests: 9 successful, 1 failed, 1 errors, 1 pending
+
+Currently that's the only kind of output format, I'll whip up some more output formats at a later date and/or give ability to supply your own.
+
 == Current And Upcoming Features
 
+- define tests inline
+- call private methods as if they were public
+- access instance variables as if they were exposed
+- a basic output writer
+- only a few expectation types, should_fail, should_be_true, should_not_be_true, should_raise, should_not_raise - that's it for the moment
+- setup and teardown for all tests, but can connfigure a test so that no setup is run for it
+- automatically create a class that includes a module which methods you want to test (if you have a module called MyModule and you want to test its methods buy only after the module has been included in a class, a class called MyModuleClass will be automatically created and will include your module, an object of this new class will be instantiated for you to play with) e.g:
+
+    before_all do
+      @module_class = create_and_include(MyModule)
+    end
+
+- tries not to pollute core objects too much
+
+I've got a few things I want to try out in the future, I've already mentioned some of them such as more output writers and ability to define your own as well as giving it more smarts in various areas. More specifically here are some things that are high on my radar:
+
+- integrating with Mocha to provide at least some test double (i.e. mocking/stubbing) functionality
+- writing my own test double project in the same general style as attest and integrating with it as well to give another more seamless mock/stub option
+- default rake task for ability to run via rake rather than having to use the attest executable
+- output the expectation count, not just the test count in the output report 
+- more smarts around classes that define their own method missing
+- ability to disable tests and have the output list them as such 
+- write some basic unit tests for the framework using itself as the test framework (i.e. eating own dogfood style)
+- allow for multiple setup and teardown blocks and ability to specify which tests they are relevant for
+- haven't yet decided if I nested contexts are a good idea, I find they tend to confuse things
+- maybe ability to do shared contexts, once again haven't decided if they are a good idea
+- more types of expectations for convenience, e.g. should_equal etc.
+- look at providing convenience stuff for web testing since that seems to be a big deal these days, ditto file system testing (requires mucho more thought)
+
+
 == More Examples
+
+Go to the examples directory in the code, it contains the above example as well as a couple of others, reasonably easy to understand, as I said not a lot to remember at the moment.
 
 == Note on Patches/Pull Requests
  
 * Fork the project.
 * Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a future version unintentionally. (Ok, you can't really do that as yet, but it's coming up :)
+* Add tests for it. This is important so I don't break it in a future version unintentionally. (Ok, you can't really do that as yet, but it's coming up :))
 * Commit, do not mess with rakefile, version, or history. (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
