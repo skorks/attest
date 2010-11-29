@@ -61,15 +61,15 @@ Currently the functionality is pretty minimal, almost fully described by the exa
 
 Here are a few things to note. All of that stuff would live in the same file and you would execute it in the following fashion:
 
-attest -f my_ruby_file.rb
+  attest -f my_ruby_file.rb
 
 The if statement with the ENV is necessary so that the test code is comlpetely ignored unless you're running it via the 'attest' executable. If anyone can think of a better way of doing it, I am open to ideas. If you have a bunch of files that live in a directory and you want to run the test that live in all of them:
 
-attest -d directory_with_ruby_files
+  attest -d directory_with_ruby_files
 
 As per usual, to get some help:
 
-attest --help
+  attest --help
 
 If your file needs other ruby files for it to function (as they often do :)), you will need to set up the requires yourself within the 'if ENV' block. I'll give it more smarts in this area at a later date.
 
