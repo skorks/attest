@@ -54,8 +54,10 @@ module Attest
                 failure += 1
               elsif result.error?
                 error += 1
-              else
+              elsif result.pending?
                 pending += 1
+              else
+                raise "Errr, WTF!!!"
               end
             end
           end

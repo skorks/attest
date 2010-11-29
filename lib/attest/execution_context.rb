@@ -8,8 +8,7 @@ module Attest
     end
 
     def should_raise(type=nil, &block)
-      @results << Attest::ExpectationResult.new
-      result = @results.last
+      result = Attest::ExpectationResult.new
       begin
         if block_given?
           yield
@@ -25,6 +24,7 @@ module Attest
       unless result.success?
         result.failure 
       end
+      @results << result
       self
     end
 
@@ -39,17 +39,17 @@ module Attest
     end
 
     def should_fail
-      @results << Attest::ExpectationResult.new
-      result = @results.last
+      result = Attest::ExpectationResult.new
       result.failure
+      @results << result
       self
     end
 
     def should_be_true(&block)
-      @results << Attest::ExpectationResult.new
-      result = @results.last
+      result = Attest::ExpectationResult.new
       block_return = yield
       block_return ? result.success : result.failure
+      @results << result
       self
     end
 
