@@ -93,26 +93,37 @@ most basic
 - don't print summaries after every context, only a totals summary at the end DONE
 - make it so that tests can take an options hash and one of the options should be to not run setup or teardown for the test, perhaps make it not part of the opts hash DONE
 - should be able to specify a test without a body for it to appear in the output as pending DONE
-- refactor all example code so it is a bit nicer and more representative
-- once all the above are done, create some RDOC documentation to describe the basic features and usage of the framework
-- also fix up the description and extended description, make sure everything looks proper as far as doco is concerned on github etc.
-- if everything is ok at this point, do a first public release of the gem (give it an appropriately betaish version number)
-- make sure the gem is available through rubyforge as well as wherever else is appropriate, e.g. gemcutter
+- refactor all example code so it is a bit nicer and more representative DONE
+- once all the above are done, create some RDOC documentation to describe the basic features and usage of the framework DONE
+- also fix up the description and extended description, make sure everything looks proper as far as doco is concerned on github etc. DONE
+- if everything is ok at this point, do a first public release of the gem (give it an appropriately betaish version number) DONE
+- make sure the gem is available through rubyforge as well as wherever else is appropriate, e.g. gemcutter DONE
 
-
-- when committing need to make sure there is a valid gemspec
-- when used with bundler dependencies like trollop don't come trhough so can't execute attest properly get an error instead need to detect if being used via bundler and do a bundle setup etc.
 
 next release
 
-- integrate mocha so that can mock using mocha 
-- output calculations of expectations not just tests
-- allow expectations to be specified directly as tests (perhaps failures should contain the block that has failed)
-- create a failures only output writer and allow it to be configured
-- create a test/unit style output writer and allow it to be configured
-- test out with method missing defined on the class, does it still work ok
-- make sure if method missing is defined it is tried out first before the new_method_missing on kernel takes over
+- test out with method missing defined on the class, does it still work ok, essentially call the original method missing first, catch appropriate exception out of there and then run my method missing code and if still no good then propagate the original exception
+- make sure if method missing is defined it is tried out first before the new_method_missing on kernel takes over (this is very similar to the one above)
+- integrate mocha so that can mock using mocha, this should be relatively straight forward 
+- mocha should be set up as a configurable parameter even though it will be the only test double capability available
+- output calculations of expectations not just tests, relatively straight forward and is a good idea
+- allow expectations to be specified directly as tests (perhaps failures should contain the block that has failed), the test passes and fails and the floating expectation passes and fails will probably need to be reported separately
+- if we get a test failure, perhaps more of a message regarding where/why the failure occured i.e. which expectation actually failed
+- create a failures only output writer
+- create a test/unit style output writer
+- allow the different types of output writer to be configured as the one to use via command line parameter
 - should be able to disable a test so that it is not executed, but is listed as disabled in the output
+- more different types of expectations, should_equal(5){5}, should_not_equal, should_be_same(obj), should_be_same_as, should_not_be_same, should_not_be_same_as, should_not_fail, should_pass, should_be_around(6){5}.plus_minus(1), should_be_a/an(some_lambda){"hello"}, should_match/should_match_a/should_match_an, more thought regarding how to specify a custom matcher, something for arrays and hashes, should_include(some_array), perhaps ability to do blocks and do without blocks i.e. should_include(5, some_array)
+
+- POC perhaps hold off until next release, ability to actually convert a block to a string to be able to provide more information regarding what actually failed, essentially will need proc.to_s code
+- POC remove trollop as a dependency to minimize dependecies, either that, or pull the trollop code in directly to minimize on dependecies, see if it's possible to easily acomplish this with git, if not then just manual
+- POC once test double functionality is in, see what we can do about writing some tests for this framework using itself, even a minimal test suite will be better than nothing
+- POC rake task that can easily be configured in a project to configure all the moving parts and run attest via rake (e.g. rake attest)
+- POC expectations on objects themselves, see if this can be done in such a way as to make it possible to include that bit separately via a separate require or command line paramter or rake config or all of the above
+- POC hook in autotest somehow
+- POC write some smarts about requiring things maybe even do this as a separate gem similar to require_all but with even more smarts and potential configurations call it require_bot
+- POC own test double framework first only for ability to simply provide stubs, also ability to do mocks that verify expected behaviour, possibly two modes, one that complains when unexpected methods are called within test methods, the other mode is the opposite, is fine with unexpected methods, but complains when expected methods are not called, mock and stub class and instance methods, mock on just one object or all objects of the type, probably should be its own gem as well
+- POC support to allow more traditional i.e. non-inline creating of test in which case perhaps the if env block should not be necessary, tests will live in an attest directory, whatever once again should work via executable as well as rake task, all the smarts that we need to get this to happen
 
 next release 2
 
@@ -121,6 +132,14 @@ next release 2
 - allow expectations to be made on objects themselves
 - allow for tests to be given ids as well as descriptions
 - allow for multiple before and after blocks should specify which test to run this block for using ids of tests as parameters
+- think of even more different types of expectations
+- specify your own expectations
+- some way to share the expectations that you have created yourself amongs all the different tests in different files
+- pull in tests from other files into current file easily
+- ability to run tests in parallel in multiple different ruby processes (depending on how many processors you have, configurable) then aggregate all the results, unit test parallelisation, ability to declare some test classes as non-parallelisable in which case they execute in a traditional fashion after all the parallelised tests have been run
+- ability to only run unsuccessful tests from a previous run, only the fails and the errors
+- ability to run only the tests that were run on the previous run
+- print out how long it took to complete the current test run
 
 next release 3
 - come up with some more useful expectations, both on object and as standalone methods of test
@@ -129,4 +148,5 @@ next release 3
 - hook into autotest somehow
 
 bug 
-- when requiring ruby files in another ruby file that one seems to inherit the tests from the other one
+- when requiring ruby files in another ruby file that one seems to inherit the tests from the other one DONE 
+- have a look at doing a similar thing for load method, i.e. myself call new load with an introduced new paramter, and only in that case should the env var for attest be set otherwise even regular load should ignore the if attest block, only if it look slike being an issue
