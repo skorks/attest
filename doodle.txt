@@ -126,17 +126,7 @@ next release 3
 - come up with some more useful expectations, both on object and as standalone methods of test
 - look into rails stuff regarding expectations and idioms etc
 - should somehow be able to require all the necessary ruby files that are needed when a test is run for the test not to fail, e.g. because ruby files depend on other ruby files
+- hook into autotest somehow
 
-
-
-what to say in readme
-give an example of usage
-talk about how to define tests inline
-talk about how to execute the tests in one file or directory etc
-list the currently supported expectations
-talk about pendind tests
-talk about the fact that other output writers are coming
-talk about the fact that you can disable setup for particular tests
-talk about how to test modules within an included class
-no nested context as yet, but can define multiple top level ones, no shared tests or contexts as yet
-mention the examples directory but it is currently crappy
+bug 
+- when requiring ruby files in another ruby file that one seems to inherit the tests from the other one
