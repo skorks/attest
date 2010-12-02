@@ -150,3 +150,4 @@ next release 3
 bug 
 - when requiring ruby files in another ruby file that one seems to inherit the tests from the other one DONE 
 - have a look at doing a similar thing for load method, i.e. myself call new load with an introduced new paramter, and only in that case should the env var for attest be set otherwise even regular load should ignore the if attest block, only if it look slike being an issue
+- BUG when nosetup is defined on test when the test is parsed it is parsed in the context of the parser and therefore hits method missing the only reason it works right now is because there is an instance var on parser called nosetup
