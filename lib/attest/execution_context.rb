@@ -77,8 +77,8 @@ module Attest
       klass.new
     end
 
-    def nosetup
-      true
-    end
+    #def nosetup
+      #true
+    #end
   end
 end

@@ -6,7 +6,7 @@ module Attest
       @before = nil
       @after = nil
       @tests = {}
-      @nosetup = {}
+      @nosetup_tests = {}
     end
 
     def parse
@@ -14,7 +14,7 @@ module Attest
       test_container = Attest::TestContainer.new(@description)
       @tests.each_pair do |description, test_block|
         test_object = TestObject.new(description, test_block)
-        test_object.nosetup = true if @nosetup[description]
+        test_object.nosetup = true if @nosetup_tests[description]
         test_object.add_setup(@before)
         test_object.add_cleanup(@after)
         test_container.add(test_object)
@@ -30,9 +30,13 @@ module Attest
       @after = block
     end
 
-    def test(description, nosetup=false, &block)
+    def test(description, nosetup_test=false, &block)
       @tests[description] = block
-      @nosetup[description] = true if nosetup
+      @nosetup_tests[description] = true if nosetup_test
+    end
+
+    def nosetup 
+      true
     end
   end
 end

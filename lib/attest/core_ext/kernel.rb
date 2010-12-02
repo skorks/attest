@@ -1,5 +1,12 @@
 module Kernel
   def new_method_missing(name, *args, &block)
+    original_error = nil
+    begin
+      old_method_missing(name, *args, &block) 
+      return
+    rescue NoMethodError => e
+      original_error = e
+    end
     private_method = false
     instance_variable = false
     private_methods.each do |meth|
@@ -14,7 +21,8 @@ module Kernel
       end
       send(name, *args, &block)
     else
-      old_method_missing(name, *args, &block) 
+      raise original_error
+      #old_method_missing(name, *args, &block) 
     end
   end
   alias_method :old_method_missing, :method_missing
