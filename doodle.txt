@@ -106,6 +106,9 @@ next release
 - make sure if method missing is defined it is tried out first before the new_method_missing on kernel takes over (this is very similar to the one above), need a test here
 - integrate mocha so that can mock using mocha, this should be relatively straight forward 
 - mocha should be set up as a configurable parameter even though it will be the only test double capability available
+- try out using mocha within the framework on another project totally separate, to nut out how it should be not made a runtime dependency but can be used when pulled in to the other project as a development dependency or a default dependency
+- refactor how mocha gets included into the project 
+- make sure the binary is only used to read the command line and calls down to other methods to actually load the test files and begin execution of all the tests including outputting the summary at the end
 - output calculations of expectations not just tests, relatively straight forward and is a good idea
 - allow expectations to be specified directly as tests (perhaps failures should contain the block that has failed), the test passes and fails and the floating expectation passes and fails will probably need to be reported separately
 - if we get a test failure, perhaps more of a message regarding where/why the failure occured i.e. which expectation actually failed
@@ -114,6 +117,8 @@ next release
 - allow the different types of output writer to be configured as the one to use via command line parameter
 - should be able to disable a test so that it is not executed, but is listed as disabled in the output
 - more different types of expectations, should_equal(5){5}, should_not_equal, should_be_same(obj), should_be_same_as, should_not_be_same, should_not_be_same_as, should_not_fail, should_pass, should_be_around(6){5}.plus_minus(1), should_be_a/an(some_lambda){"hello"}, should_match/should_match_a/should_match_an, more thought regarding how to specify a custom matcher, something for arrays and hashes, should_include(some_array), perhaps ability to do blocks and do without blocks i.e. should_include(5, some_array)
+
+BUG: I think I am now counting expectations passes rather than test passes, since i am getting ran 6 test 7 successful for mocka tests, need to look into this further
 
 - POC perhaps hold off until next release, ability to actually convert a block to a string to be able to provide more information regarding what actually failed, essentially will need proc.to_s code
 - POC remove trollop as a dependency to minimize dependecies, either that, or pull the trollop code in directly to minimize on dependecies, see if it's possible to easily acomplish this with git, if not then just manual

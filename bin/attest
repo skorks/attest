@@ -24,6 +24,12 @@ Attest.configure do |config|
   config.testdouble = opts[:testdouble] || "mocha"
 end
 
+if Attest.config.testdouble == "mocha"
+  Bundler.setup(:development)
+  require "mocha_standalone"
+  Attest::ExecutionContext.include(Mocha::API) # need this so that methods like stub() and mock() can be accessed directly from the execution context
+end
+
 if opts[:file]
   Attest.config.current_file = File.join(File.expand_path(opts[:file]))
   load opts[:file] 
@@ -34,11 +40,6 @@ if opts[:directory]
     Attest.config.current_file = file
     load file 
   end
-end
-
-if Attest.config.testdouble == "mocha"
-  require 'mocha'
-  require "mocha_standalone"
 end
 
 Attest.output_writer.summary
