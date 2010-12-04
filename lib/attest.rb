@@ -2,7 +2,7 @@ require "rubygems"
 require "bundler"
 Bundler.setup(:default)
 
-require "trollop"
+#require "trollop"
 require "singleton"
 require 'attest/config'
 require 'attest/core_ext/kernel'
@@ -12,6 +12,7 @@ require 'attest/expectation_result'
 require 'attest/test_container'
 require 'attest/test_object'
 require 'attest/execution_context'
+require 'attest/test_loader'
 require 'attest/test_parser'
 require 'attest/itself'
 require 'attest/attest_error'

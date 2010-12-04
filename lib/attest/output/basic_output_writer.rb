@@ -43,30 +43,56 @@ module Attest
 
       def summary
         return unless @containers.size >= 1
-        tests, success, failure, error, pending = 0, 0, 0, 0, 0
+        expectation_status_hash = blank_status_hash
+        overall_test_status_hash = blank_status_hash
+        test_count = 0
         @containers.each do |container|
           container.test_objects.each do |test_object|
-            tests += 1
-            test_object.results.each do |result|
-              if result.success?
-                success += 1
-              elsif result.failure?
-                failure += 1
-              elsif result.error?
-                error += 1
-              elsif result.pending?
-                pending += 1
-              else
-                raise "Errr, WTF!!!"
-              end
-            end
+            test_count += 1
+            current_test_statuses = determine_test_status test_object
+            overall_test_status_hash = merge_counting_hashes(overall_test_status_hash, current_test_statuses[0])
+            expectation_status_hash = merge_counting_hashes(expectation_status_hash, current_test_statuses[1])
           end
         end
         puts
-        puts "Ran #{tests} tests: #{success} successful, #{failure} failed, #{error} errors, #{pending} pending"
+        print "Total #{test_count} tests:"
+        Attest::ExpectationResult.status_weights.sort{|a, b| a[1] <=> b[1]}.each {|status, weight| print " #{overall_test_status_hash[status]} #{status.to_s}"}
+        puts
+        print "Total #{expectation_status_hash.inject(0){|sum, tuple| sum + tuple[1]}} assertions:"
+        Attest::ExpectationResult.status_weights.sort{|a, b| a[1] <=> b[1]}.each {|status, weight| print " #{expectation_status_hash[status]} #{status.to_s}"}
+        puts
       end
 
       def after_everything
+      end
+
+      private
+      def determine_test_status(test_object)
+        expectation_status_hash = blank_status_hash
+        overall_test_status_hash = blank_status_hash
+        dominant_result = nil
+        test_object.results.each do |result|
+          expectation_status_hash[result.status.to_sym] += 1
+          dominant_result = result if result > dominant_result
+        end
+        raise "Unexpected result status encountered! WTF!!!" if expectation_status_hash.keys.size > 4
+        raise "Test without status encountered, all test should have a status!" unless dominant_result 
+        overall_test_status_hash[dominant_result.status.to_sym] += 1
+        [overall_test_status_hash, expectation_status_hash]
+      end
+
+      def merge_counting_hashes(hash1, hash2)
+        hash1.inject(hash2) do |accumulator_hash, tuple|
+          accumulator_hash[tuple[0]] += tuple[1]
+          accumulator_hash
+        end
+      end
+
+      def blank_status_hash
+        Attest::ExpectationResult.status_types.inject({}) do |accumulator, status|
+          accumulator[status] = 0 
+          accumulator
+        end
       end
     end
   end

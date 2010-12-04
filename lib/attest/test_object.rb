@@ -39,6 +39,7 @@ module Attest
         @results = context.results
         add_unexpected_error_result(error) if error
         add_pending_result unless @test_block
+        add_success_result if @results.size == 0
       end
       Attest.output_writer.after_test(self)
     end
@@ -53,6 +54,12 @@ module Attest
     def add_pending_result
       result = Attest::ExpectationResult.new
       result.pending
+      @results << result
+    end
+
+    def add_success_result
+      result = Attest::ExpectationResult.new
+      result.success
       @results << result
     end
   end
