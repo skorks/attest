@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{attest}
-  s.version = "0.1.0"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alan Skorkin"]
-  s.date = %q{2010-11-29}
+  s.date = %q{2010-12-04}
   s.default_executable = %q{attest}
   s.description = %q{Attest allows you to define spec-like tests inline (within the same file as your actual code) which means almost non-existant overheads to putting some tests around your code. It also tries to not be too prescriptive regarding the 'right' way to test. You want to test private methods - go ahead, access unexposed instance variables - no worries, pending and disabled tests are first class citizens. Don't like the output format, use a different one or write your own. Infact you don't even have to define you tests inline if you prefer the 'traditional' way, separate directory and all. You should be allowed to test your code the way you want to, not the way someone else says you have to!}
   s.email = %q{alan@skorks.com}
@@ -31,6 +31,8 @@ Gem::Specification.new do |s|
      "bin/attest",
      "doodle.txt",
      "examples/magic_calculator.rb",
+     "examples/mocha_tests.rb",
+     "examples/more/container.rb",
      "examples/more/placeholder.rb",
      "examples/standard_calculator.rb",
      "lib/attest.rb",
@@ -53,8 +55,10 @@ Gem::Specification.new do |s|
   s.summary = %q{An inline unit testing/spec framework that doesn't force you to follow arbitrary rules}
   s.test_files = [
     "examples/more/placeholder.rb",
+     "examples/more/container.rb",
      "examples/magic_calculator.rb",
-     "examples/standard_calculator.rb"
+     "examples/standard_calculator.rb",
+     "examples/mocha_tests.rb"
   ]
 
   if s.respond_to? :specification_version then
@@ -63,11 +67,14 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<trollop>, [">= 0"])
+      s.add_development_dependency(%q<mocha>, [">= 0"])
     else
       s.add_dependency(%q<trollop>, [">= 0"])
+      s.add_dependency(%q<mocha>, [">= 0"])
     end
   else
     s.add_dependency(%q<trollop>, [">= 0"])
+    s.add_dependency(%q<mocha>, [">= 0"])
   end
 end
 

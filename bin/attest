@@ -37,6 +37,7 @@ if opts[:directory]
 end
 
 if Attest.config.testdouble == "mocha"
+  require 'mocha'
   require "mocha_standalone"
 end
 
