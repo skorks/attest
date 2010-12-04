@@ -102,8 +102,8 @@ most basic
 
 next release
 
-- test out with method missing defined on the class, does it still work ok, essentially call the original method missing first, catch appropriate exception out of there and then run my method missing code and if still no good then propagate the original exception
-- make sure if method missing is defined it is tried out first before the new_method_missing on kernel takes over (this is very similar to the one above)
+- test out with method missing defined on the class, does it still work ok, essentially call the original method missing first, catch appropriate exception out of there and then run my method missing code and if still no good then propagate the original exception DONE
+- make sure if method missing is defined it is tried out first before the new_method_missing on kernel takes over (this is very similar to the one above), need a test here
 - integrate mocha so that can mock using mocha, this should be relatively straight forward 
 - mocha should be set up as a configurable parameter even though it will be the only test double capability available
 - output calculations of expectations not just tests, relatively straight forward and is a good idea

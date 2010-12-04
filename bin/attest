@@ -14,12 +14,14 @@ EOS
 
   opt :file, "Ruby file with inline tests that should be executed", :type => String
   opt :directory, "Directory with ruby files which contain inline tests to be executed", :type => String, :default => nil
+  opt :testdouble, "The identifier of the test double framework to use", :type => String, :default => "mocha"
 end
 Trollop::die :file, "Must exist" unless File.exist?(opts[:file]) if opts[:file]
 Trollop::die :directory, "Must exist" unless File.exist?(opts[:directory]) && File.directory?(opts[:directory]) if opts[:directory]
 
 Attest.configure do |config|
   config.output_writer = Attest::Output::BasicOutputWriter.new
+  config.testdouble = opts[:testdouble] || "mocha"
 end
 
 if opts[:file]
@@ -32,6 +34,10 @@ if opts[:directory]
     Attest.config.current_file = file
     load file 
   end
+end
+
+if Attest.config.testdouble == "mocha"
+  require "mocha_standalone"
 end
 
 Attest.output_writer.summary
