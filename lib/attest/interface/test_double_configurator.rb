@@ -10,7 +10,7 @@ module Attest
 
       def configure_mocha
         begin
-        require "mocha_standalone"
+          require "mocha_standalone"
         rescue LoadError => e
           puts "Trying to use mocha for test double functionality, but can't find it!"
           exit

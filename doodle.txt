@@ -106,8 +106,8 @@ $ test out with method missing defined on the class, does it still work ok, esse
 $ make sure if method missing is defined it is tried out first before the new_method_missing on kernel takes over (this is very similar to the one above), need a test here
 $ integrate mocha so that can mock using mocha, this should be relatively straight forward DONE
 $ mocha should be set up as a configurable parameter even though it will be the only test double capability available DONE
-- try out using mocha within the framework on another project totally separate, to nut out how it should be not made a runtime dependency but can be used when pulled in to the other project as a development dependency or a default dependency, also if not using bundler at all and it is not installed, what happens
-- refactor how mocha gets included into the project 
+$ try out using mocha within the framework on another project totally separate, to nut out how it should be not made a runtime dependency but can be used when pulled in to the other project as a development dependency or a default dependency, also if not using bundler at all and it is not installed, what happens DONE
+$ refactor how mocha gets included into the project  DONE
 $ make sure the binary is only used to read the command line and calls down to other methods to actually load the test files and begin execution of all the tests including outputting the summary at the end DONE
 $ output calculations of expectations not just tests, relatively straight forward and is a good idea DONE
 - allow expectations to be specified directly as tests (perhaps failures should contain the block that has failed), the test passes and fails and the floating expectation passes and fails will probably need to be reported separately
@@ -118,7 +118,8 @@ $ output calculations of expectations not just tests, relatively straight forwar
 - should be able to disable a test so that it is not executed, but is listed as disabled in the output
 - more different types of expectations, should_equal(5){5}, should_not_equal, should_be_same(obj), should_be_same_as, should_not_be_same, should_not_be_same_as, should_not_fail, should_pass, should_be_around(6){5}.plus_minus(1), should_be_a/an(some_lambda){"hello"}, should_match/should_match_a/should_match_an, more thought regarding how to specify a custom matcher, something for arrays and hashes, should_include(some_array), perhaps ability to do blocks and do without blocks i.e. should_include(5, some_array)
 - refactor the command line handling to split out actual cli stuff from the attest code that acts on the cli params
-- should be able to configure attest to be used without any test double framework at all
+$ should be able to configure attest to be used without any test double framework at all DONE
+- turn the example directory into a black box test suite, perhaps provide a testing_output_writer and use that somehow
 
 
 BUG: I think I am now counting expectations passes rather than test passes, since i am getting ran 6 test 7 successful for mocka tests, need to look into this further DONE

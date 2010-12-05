@@ -13,7 +13,7 @@ module Attest
       end
 
       def output_writer_identifiers
-        [default_output_writer_identifier]
+        [default_output_writer_identifier, "testunit", "failuresonly"]
       end
     end
   end
