@@ -1,11 +1,12 @@
 #!/usr/bin/env ruby
 
 #need this so that bundler doesn't throw an error after library has been installed as gem and the executable is called
-#ENV["BUNDLE_GEMFILE"] = File.expand_path(File.dirname(__FILE__) + "/../Gemfile")
-#require "rubygems"
-#require "bundler"
-#Bundler.setup(:default)
+ENV["BUNDLE_GEMFILE"] = File.expand_path(File.dirname(__FILE__) + "/../Gemfile")
+require "rubygems"
+require "bundler/setup"
+
 require "trollop"
+require File.expand_path(File.dirname(__FILE__) + "/../lib/attest/interface/cli_interface")
 
 opts = Trollop::options do
   banner <<-EOS
@@ -21,8 +22,6 @@ EOS
 end
 Trollop::die :file, "Must exist" unless File.exist?(opts[:file]) if opts[:file]
 Trollop::die :directory, "Must exist" unless File.exist?(opts[:directory]) && File.directory?(opts[:directory]) if opts[:directory]
-
-require File.expand_path(File.dirname(__FILE__) + "/../lib/attest/interface/cli_interface")
 
 interface = Attest::CliInterface.new(opts)
 interface.configure

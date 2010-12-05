@@ -1,6 +1,5 @@
-#require "rubygems"
-#require "bundler"
-#Bundler.setup(:default)
+require "rubygems"
+require "bundler/setup"
 
 current_dir = File.expand_path(File.dirname(__FILE__))
 
@@ -8,9 +7,11 @@ require "singleton"
 
 require "#{current_dir}/attest/interface/test_double_configurator"
 require "#{current_dir}/attest/interface/output_writer_configurator"
+
 require "#{current_dir}/attest/config"
 require "#{current_dir}/attest/core_ext/kernel"
 require "#{current_dir}/attest/core_ext/object"
+
 require "#{current_dir}/attest/expectation_result"
 require "#{current_dir}/attest/test_container"
 require "#{current_dir}/attest/test_object"
