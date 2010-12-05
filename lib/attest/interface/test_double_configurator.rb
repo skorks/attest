@@ -10,7 +10,12 @@ module Attest
 
       def configure_mocha
         #Bundler.setup(:development) #TODO this may need to be something other than development, also may fail if project is not using bundler for whatever reason
+        begin
         require "mocha_standalone"
+        rescue LoadError => e
+          puts "Trying to use mocha for test double functionality, but can't find it!"
+          exit
+        end
         Attest::ExecutionContext.include(Mocha::API) # need this so that methods like stub() and mock() can be accessed directly from the execution context
       end
 
