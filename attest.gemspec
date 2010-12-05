@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alan Skorkin"]
-  s.date = %q{2010-12-04}
+  s.date = %q{2010-12-05}
   s.default_executable = %q{attest}
   s.description = %q{Attest allows you to define spec-like tests inline (within the same file as your actual code) which means almost non-existant overheads to putting some tests around your code. It also tries to not be too prescriptive regarding the 'right' way to test. You want to test private methods - go ahead, access unexposed instance variables - no worries, pending and disabled tests are first class citizens. Don't like the output format, use a different one or write your own. Infact you don't even have to define you tests inline if you prefer the 'traditional' way, separate directory and all. You should be allowed to test your code the way you want to, not the way someone else says you have to!}
   s.email = %q{alan@skorks.com}
@@ -42,9 +42,13 @@ Gem::Specification.new do |s|
      "lib/attest/core_ext/object.rb",
      "lib/attest/execution_context.rb",
      "lib/attest/expectation_result.rb",
+     "lib/attest/interface/cli_interface.rb",
+     "lib/attest/interface/output_writer_configurator.rb",
+     "lib/attest/interface/test_double_configurator.rb",
      "lib/attest/itself.rb",
      "lib/attest/output/basic_output_writer.rb",
      "lib/attest/test_container.rb",
+     "lib/attest/test_loader.rb",
      "lib/attest/test_object.rb",
      "lib/attest/test_parser.rb"
   ]

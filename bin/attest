@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
 #need this so that bundler doesn't throw an error after library has been installed as gem and the executable is called
-ENV["BUNDLE_GEMFILE"] = File.expand_path(File.dirname(__FILE__) + "/../Gemfile")
-require "rubygems"
-require "bundler"
-Bundler.setup(:default)
+#ENV["BUNDLE_GEMFILE"] = File.expand_path(File.dirname(__FILE__) + "/../Gemfile")
+#require "rubygems"
+#require "bundler"
+#Bundler.setup(:default)
 require "trollop"
 
 opts = Trollop::options do
