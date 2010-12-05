@@ -17,24 +17,13 @@ EOS
   opt :file, "Ruby file with inline tests that should be executed", :type => String, :default => nil
   opt :directory, "Directory with ruby files which contain inline tests to be executed", :type => String, :default => nil
   opt :testdouble, "The identifier of the test double framework to use", :type => String, :default => "mocha"
+  opt :outputwriter, "The output writer to use", :type => String, :default => "basic"
 end
 Trollop::die :file, "Must exist" unless File.exist?(opts[:file]) if opts[:file]
 Trollop::die :directory, "Must exist" unless File.exist?(opts[:directory]) && File.directory?(opts[:directory]) if opts[:directory]
 
-ENV["attest"] = "true"
-require File.expand_path(File.dirname(__FILE__) + "/../lib/attest")
+require File.expand_path(File.dirname(__FILE__) + "/../lib/attest/interface/cli_interface")
 
-Attest.configure do |config|
-  config.output_writer = Attest::Output::BasicOutputWriter.new
-  config.testdouble = opts[:testdouble] || "mocha"
-end
-
-if Attest.config.testdouble == "mocha"
-  Bundler.setup(:development)
-  require "mocha_standalone"
-  Attest::ExecutionContext.include(Mocha::API) # need this so that methods like stub() and mock() can be accessed directly from the execution context
-end
-
-Attest::TestLoader.load_tests_from(opts[:file], opts[:directory])
-Attest.output_writer.summary
-ENV["attest"] = nil
+interface = Attest::CliInterface.new(opts)
+interface.configure
+interface.load_tests
