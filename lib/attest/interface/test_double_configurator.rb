@@ -18,12 +18,15 @@ module Attest
         Attest::ExecutionContext.include(Mocha::API) # need this so that methods like stub() and mock() can be accessed directly from the execution context
       end
 
+      def configure_nothing
+      end
+
       def default_test_double_identifier
         "mocha"
       end
 
       def test_double_identifiers
-        [default_test_double_identifier]
+        [default_test_double_identifier, "nothing"]
       end
     end
   end
