@@ -27,11 +27,11 @@ module Kernel
   alias_method :old_method_missing, :method_missing
   alias_method :method_missing, :new_method_missing
 
-  def new_load(filename, wrap=false)
-    old_load(filename, wrap)
-  end
-  alias_method :old_load, :load
-  alias_method :load, :new_load
+  #def new_load(filename, wrap=false)
+    #old_load(filename, wrap)
+  #end
+  #alias_method :old_load, :load
+  #alias_method :load, :new_load
 
   def new_require(filename)
     ENV["attest"] = nil
