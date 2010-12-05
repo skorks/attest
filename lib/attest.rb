@@ -2,6 +2,9 @@ require "rubygems"
 require "bundler"
 Bundler.setup(:default)
 
+require "attest/interface/test_double_configurator"
+require "attest/interface/output_writer_configurator"
+
 #require "trollop"
 require "singleton"
 require 'attest/config'

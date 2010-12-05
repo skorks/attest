@@ -6,19 +6,8 @@ module Attest
 
     def configure
       require_relevant
-      Attest.configure do |config|
-        config.output_writer = Attest::Output::BasicOutputWriter.new
-        config.testdouble = @opts[:testdouble]
-      end
-      configure_test_double
-    end
-
-    def configure_test_double
-      if Attest.config.testdouble == "mocha"
-        Bundler.setup(:development)
-        require "mocha_standalone"
-        Attest::ExecutionContext.include(Mocha::API) # need this so that methods like stub() and mock() can be accessed directly from the execution context
-      end
+      OutputWriterConfigurator.configure(@opts[:outputwriter])
+      TestDoubleConfigurator.configure(@opts[:testdouble])
     end
 
     def load_tests 
