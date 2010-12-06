@@ -6,7 +6,7 @@ require "rubygems"
 require "bundler/setup"
 
 require "trollop"
-require File.expand_path(File.dirname(__FILE__) + "/../lib/attest/interface/cli_interface")
+require File.expand_path(File.dirname(__FILE__) + "/../lib/attest")
 
 opts = Trollop::options do
   banner <<-EOS
@@ -22,6 +22,16 @@ EOS
 end
 Trollop::die :file, "Must exist" unless File.exist?(opts[:file]) if opts[:file]
 Trollop::die :directory, "Must exist" unless File.exist?(opts[:directory]) && File.directory?(opts[:directory]) if opts[:directory]
+
+#Attest.configure do |config|
+  #config.output_writer = Attest::OutputWriterConfigurator.configure(opts[:outputwriter])
+  #config.testdouble = Attest::TestDoubleConfigurator.configure(opts[:testdouble])
+  #config.possible_tests = Attest::PossibleTestsConfigurator.configure([opts[:file], opts[:directory]])
+#end
+
+#Attest::TestLoader.execute
+puts Attest::PossibleTestsConfigurator.configure([opts[:file], opts[:directory]])
+
 
 interface = Attest::CliInterface.new(opts)
 interface.configure

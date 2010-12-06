@@ -5,7 +5,7 @@ module Attest
     end
 
     def configure
-      require_relevant
+      #require_relevant
       OutputWriterConfigurator.configure(@opts[:outputwriter])
       TestDoubleConfigurator.configure(@opts[:testdouble])
     end
