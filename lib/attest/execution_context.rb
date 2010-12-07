@@ -30,6 +30,7 @@ module Attest
       unless result.success?
         result.failure 
       end
+      result.source_location = source_location
       @results << result
       self
     end
@@ -47,6 +48,7 @@ module Attest
     def should_fail
       result = Attest::ExpectationResult.new
       result.failure
+      result.source_location = source_location
       @results << result
       self
     end
@@ -55,6 +57,7 @@ module Attest
       result = Attest::ExpectationResult.new
       block_return = yield
       block_return ? result.success : result.failure
+      result.source_location = source_location
       @results << result
       self
     end
@@ -63,6 +66,7 @@ module Attest
       should_raise(&block)
       result = @results.last
       result.success? ? result.failure : result.success
+      result.source_location = source_location
       self
     end
 
@@ -70,6 +74,7 @@ module Attest
       should_be_true(&block)
       result = @results.last
       result.success? ? result.failure : result.success
+      result.source_location = source_location
       self
     end
 
@@ -83,8 +88,10 @@ module Attest
       klass.new
     end
 
-    #def nosetup
-      #true
-    #end
+    private 
+    def source_location
+      caller[1][/(.*:\d+):.*/, 1]
+    end
+
   end
 end

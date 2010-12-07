@@ -25,7 +25,10 @@ module Attest
           relevant_result = result if !result.success?
         end
         print " [#{relevant_result.status.upcase}]" if relevant_result
-        if relevant_result && relevant_result.error?
+        if relevant_result && relevant_result.failure?
+          2.times { puts } 
+          puts "     Possible failure location: #{relevant_result.source_location}"
+        elsif relevant_result && relevant_result.error?
           e = relevant_result.attributes[:unexpected_error]
           2.times { puts } 
           puts "     #{e.class}: #{e.message}"

@@ -13,6 +13,7 @@ module Attest
     end
 
     attr_reader :attributes
+    attr_accessor :source_location
     def initialize(attributes={})
       @outcome = nil
       @attributes = attributes
