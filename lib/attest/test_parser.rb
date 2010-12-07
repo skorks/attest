@@ -7,6 +7,7 @@ module Attest
       @after = nil
       @tests = {}
       @nosetup_tests = {}
+      @freestyle_tests = []
     end
 
     def parse
@@ -37,6 +38,11 @@ module Attest
 
     def nosetup 
       true
+    end
+
+    def method_missing(name, *args, &block)
+      #check all names against the possible assertions, if it is a possible assertion then store it as a test otherwise it is a method missing error
+      puts name
     end
   end
 end

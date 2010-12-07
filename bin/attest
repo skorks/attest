@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+
 #need this so that bundler doesn't throw an error after library has been installed as gem and the executable is called
 ENV["BUNDLE_GEMFILE"] = File.expand_path(File.dirname(__FILE__) + "/../Gemfile")
 require "rubygems"
@@ -23,16 +24,17 @@ end
 Trollop::die :file, "Must exist" unless File.exist?(opts[:file]) if opts[:file]
 Trollop::die :directory, "Must exist" unless File.exist?(opts[:directory]) && File.directory?(opts[:directory]) if opts[:directory]
 
-#Attest.configure do |config|
-  #config.output_writer = Attest::OutputWriterConfigurator.configure(opts[:outputwriter])
-  #config.testdouble = Attest::TestDoubleConfigurator.configure(opts[:testdouble])
-  #config.possible_tests = Attest::PossibleTestsConfigurator.configure([opts[:file], opts[:directory]])
-#end
 
-#Attest::TestLoader.execute
-puts Attest::PossibleTestsConfigurator.configure([opts[:file], opts[:directory]])
+Attest.configure do |config|
+  config.output_writer = Attest::OutputWriterConfigurator.configure(opts[:outputwriter])
+  config.testdouble = Attest::TestDoubleConfigurator.configure(opts[:testdouble])
+  config.possible_tests = Attest::PossibleTestsConfigurator.configure([opts[:file], opts[:directory]])
+end
+
+Attest::TestLoader.execute
+#puts Attest::PossibleTestsConfigurator.configure([opts[:file], opts[:directory]])
 
 
-interface = Attest::CliInterface.new(opts)
-interface.configure
-interface.load_tests
+#interface = Attest::CliInterface.new(opts)
+#interface.configure
+#interface.load_tests

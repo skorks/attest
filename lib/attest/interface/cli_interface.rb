@@ -21,12 +21,12 @@ module Attest
       require File.expand_path(File.dirname(__FILE__) + "/../../attest")
     end
 
-    def switch_on_attest_mode
-      ENV["attest"] = "true"
-    end
+    #def switch_on_attest_mode
+      #ENV["attest"] = "true"
+    #end
 
-    def switch_off_attest_mode
-      ENV["attest"] = nil
-    end
+    #def switch_off_attest_mode
+      #ENV["attest"] = nil
+    #end
   end
 end

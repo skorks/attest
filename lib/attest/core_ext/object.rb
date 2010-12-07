@@ -1,5 +1,4 @@
 class Object
-  def itself 
-    Attest::Itself.new(self)
+  def hello 
   end
 end

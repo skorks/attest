@@ -34,9 +34,10 @@ module Kernel
   #alias_method :load, :new_load
 
   def new_require(filename)
+    current_attest_value = ENV["attest"]
     ENV["attest"] = nil
     old_require(filename)
-    ENV["attest"] = "true"
+    ENV["attest"] = current_attest_value
   end
   alias_method :old_require, :require
   alias_method :require, :new_require

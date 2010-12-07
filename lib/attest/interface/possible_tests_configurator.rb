@@ -9,7 +9,7 @@ module Attest
           expanded_location = File.expand_path(location)
           possible_tests << derive_possible_tests_from_expanded_location(expanded_location)
         end
-        possible_tests
+        possible_tests.flatten
       end
 
       def derive_possible_tests_from_expanded_location(location)
