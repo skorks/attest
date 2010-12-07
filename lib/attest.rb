@@ -13,6 +13,8 @@ require "#{current_dir}/attest/interface/possible_tests_configurator"
 require "#{current_dir}/attest/config"
 require "#{current_dir}/attest/core_ext/kernel"
 require "#{current_dir}/attest/core_ext/object"
+require "#{current_dir}/attest/proc/proc_source_reader"
+require "#{current_dir}/attest/core_ext/proc"
 
 require "#{current_dir}/attest/expectation_result"
 require "#{current_dir}/attest/test_container"
