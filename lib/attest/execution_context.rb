@@ -2,6 +2,12 @@ module Attest
   class ExecutionContext
     attr_reader :results
 
+    class << self
+      def assertions
+        self.instance_methods(false).select{|method_name| method_name =~ /^should.*/ }.inspect
+      end
+    end
+
     def initialize
       @results = []
       @subject = self

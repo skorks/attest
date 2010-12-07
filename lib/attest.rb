@@ -5,7 +5,6 @@ current_dir = File.expand_path(File.dirname(__FILE__))
 
 require "singleton"
 
-require "#{current_dir}/attest/interface/cli_interface"
 require "#{current_dir}/attest/interface/test_double_configurator"
 require "#{current_dir}/attest/interface/output_writer_configurator"
 require "#{current_dir}/attest/interface/possible_tests_configurator"

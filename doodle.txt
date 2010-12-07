@@ -110,7 +110,7 @@ $ try out using mocha within the framework on another project totally separate, 
 $ refactor how mocha gets included into the project  DONE
 $ make sure the binary is only used to read the command line and calls down to other methods to actually load the test files and begin execution of all the tests including outputting the summary at the end DONE
 $ output calculations of expectations not just tests, relatively straight forward and is a good idea DONE
-- allow expectations to be specified directly as tests (perhaps failures should contain the block that has failed), the test passes and fails and the floating expectation passes and fails will probably need to be reported separately
+$ allow expectations to be specified directly as tests (perhaps failures should contain the block that has failed), the test passes and fails and the floating expectation passes and fails will probably need to be reported separately DONE
 - if we get a test failure, perhaps more of a message regarding where/why the failure occured i.e. which expectation actually failed
 - create a failures only output writer
 - create a test/unit style output writer the one with the dots
@@ -119,12 +119,16 @@ $ output calculations of expectations not just tests, relatively straight forwar
 - more different types of expectations, should_equal(5){5}, should_not_equal, should_be_same(obj), should_be_same_as, should_not_be_same, should_not_be_same_as, should_not_fail, should_pass, should_be_around(6){5}.plus_minus(1), should_be_a/an(some_lambda){"hello"}, should_match/should_match_a/should_match_an, more thought regarding how to specify a custom matcher, something for arrays and hashes, should_include(some_array), perhaps ability to do blocks and do without blocks i.e. should_include(5, some_array)
 - refactor the command line handling to split out actual cli stuff from the attest code that acts on the cli params
 $ should be able to configure attest to be used without any test double framework at all DONE
-- turn the example directory into a black box test suite, perhaps provide a testing_output_writer and use that somehow
+- create a better examples directory more consistent test naming etc
+- turn the example directory into a black box test suite, perhaps provide a testing_output_writer and use that somehow, this is on top of the basic unit tests that still need to be built
+- combine assertion reporting and test reporting, we only really care about assertion reporting, no need to print out separate line for both
+- ability to provide multiple directories, files from which to pull the possible tests 
+- ability to provide multiple directories, file which should be excluded from possible tests
 
 
-BUG: I think I am now counting expectations passes rather than test passes, since i am getting ran 6 test 7 successful for mocka tests, need to look into this further DONE
+$ BUG: I think I am now counting expectations passes rather than test passes, since i am getting ran 6 test 7 successful for mocka tests, need to look into this further DONE
 
-- POC perhaps hold off until next release, ability to actually convert a block to a string to be able to provide more information regarding what actually failed, essentially will need proc.to_s code
+$ POC perhaps hold off until next release, ability to actually convert a block to a string to be able to provide more information regarding what actually failed, essentially will need proc.to_s code DONE
 - POC remove trollop as a dependency to minimize dependecies, either that, or pull the trollop code in directly to minimize on dependecies, see if it's possible to easily acomplish this with git, if not then just manual
 - POC once test double functionality is in, see what we can do about writing some tests for this framework using itself, even a minimal test suite will be better than nothing
 - POC rake task that can easily be configured in a project to configure all the moving parts and run attest via rake (e.g. rake attest)

@@ -13,13 +13,8 @@ module Attest
     def parse
       self.instance_eval(&@block)
       test_container = Attest::TestContainer.new(@description)
-      @tests.each_pair do |description, test_block|
-        test_object = TestObject.new(description, test_block)
-        test_object.nosetup = true if @nosetup_tests[description]
-        test_object.add_setup(@before)
-        test_object.add_cleanup(@after)
-        test_container.add(test_object)
-      end
+      build_test_objects_and_add_to_container test_container
+      build_freestyle_test_objects_and_add_to test_container
       test_container
     end
 
@@ -41,8 +36,31 @@ module Attest
     end
 
     def method_missing(name, *args, &block)
-      #check all names against the possible assertions, if it is a possible assertion then store it as a test otherwise it is a method missing error
-      puts name
+      unless Attest::ExecutionContext.assertions.include? name
+        super
+      end
+      @freestyle_tests << {:method_name => name, :args => args, :block => block}
+    end
+
+    private
+    def build_test_objects_and_add_to_container(test_container)
+      @tests.each_pair do |description, test_block|
+        test_object = TestObject.new(description, test_block)
+        test_object.nosetup = true if @nosetup_tests[description]
+        test_object.add_setup(@before)
+        test_object.add_cleanup(@after)
+        test_container.add(test_object)
+      end
+    end
+
+    def build_freestyle_test_objects_and_add_to(test_container)
+      @freestyle_tests.each_with_index do |assertion_info, index|
+        test_block = lambda {send(assertion_info[:method_name], *assertion_info[:args], &assertion_info[:block])}
+        block_code = assertion_info[:block].to_string.collect{|line| line.strip}
+        test_object = TestObject.new("freestyle test #{index + 1} - #{block_code.join(' ')}", test_block)
+        test_object.nosetup = false
+        test_container.add(test_object)
+      end
     end
   end
 end

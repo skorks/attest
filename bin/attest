@@ -32,9 +32,8 @@ Attest.configure do |config|
 end
 
 Attest::TestLoader.execute
-#puts Attest::PossibleTestsConfigurator.configure([opts[:file], opts[:directory]])
 
-
-#interface = Attest::CliInterface.new(opts)
-#interface.configure
-#interface.load_tests
+#if ENV["attest"]
+  #this_tests "that all the command line parameter symbols are still valid" do 
+  #end
+#end
