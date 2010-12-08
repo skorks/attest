@@ -22,6 +22,8 @@ require "#{current_dir}/attest/test_loader"
 require "#{current_dir}/attest/test_parser"
 require "#{current_dir}/attest/attest_error"
 require "#{current_dir}/attest/output/basic_output_writer"
+require "#{current_dir}/attest/output/failuresonly_output_writer"
+require "#{current_dir}/attest/output/testunit_output_writer"
 
 module Attest
   class << self
