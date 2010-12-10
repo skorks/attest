@@ -1,39 +1,43 @@
 #!/usr/bin/env ruby
 
+$:.unshift(File.expand_path(File.join(File.dirname(__FILE__), '../lib/'))) unless $:.include?(File.expand_path(File.join(File.dirname(__FILE__), '../lib')))
+puts $:
+require 'trollop'
+require 'attest'
 
-#need this so that bundler doesn't throw an error after library has been installed as gem and the executable is called
-ENV["BUNDLE_GEMFILE"] = File.expand_path(File.dirname(__FILE__) + "/../Gemfile")
-require "rubygems"
-require "bundler/setup"
+##need this so that bundler doesn't throw an error after library has been installed as gem and the executable is called
+#ENV["BUNDLE_GEMFILE"] = File.expand_path(File.dirname(__FILE__) + "/../Gemfile")
+#require "rubygems"
+#require "bundler/setup"
 
-require "trollop"
-require File.expand_path(File.dirname(__FILE__) + "/../lib/attest")
+#require "trollop"
+#require File.expand_path(File.dirname(__FILE__) + "/../lib/attest")
 
-opts = Trollop::options do
-  banner <<-EOS
-Usage:
-       attest [options] <filenames>+
-where [options] are:
-EOS
+#opts = Trollop::options do
+#  banner <<-EOS
+#Usage:
+#       attest [options] <filenames>+
+#where [options] are:
+#EOS
 
-  opt :file, "Ruby file with inline tests that should be executed", :type => String, :default => nil
-  opt :directory, "Directory with ruby files which contain inline tests to be executed", :type => String, :default => nil
-  opt :testdouble, "The identifier of the test double framework to use", :type => String, :default => "mocha"
-  opt :outputwriter, "The output writer to use", :type => String, :default => "basic"
-end
-Trollop::die :file, "Must exist" unless File.exist?(opts[:file]) if opts[:file]
-Trollop::die :directory, "Must exist" unless File.exist?(opts[:directory]) && File.directory?(opts[:directory]) if opts[:directory]
-
-
-Attest.configure do |config|
-  config.output_writer = Attest::OutputWriterConfigurator.configure(opts[:outputwriter])
-  config.testdouble = Attest::TestDoubleConfigurator.configure(opts[:testdouble])
-  config.possible_tests = Attest::PossibleTestsConfigurator.configure([opts[:file], opts[:directory]])
-end
-
-Attest::TestLoader.execute
-
-#if ENV["attest"]
-  #this_tests "that all the command line parameter symbols are still valid" do 
-  #end
+#  opt :file, "Ruby file with inline tests that should be executed", :type => String, :default => nil
+#  opt :directory, "Directory with ruby files which contain inline tests to be executed", :type => String, :default => nil
+#  opt :testdouble, "The identifier of the test double framework to use", :type => String, :default => "mocha"
+#  opt :outputwriter, "The output writer to use", :type => String, :default => "basic"
 #end
+#Trollop::die :file, "Must exist" unless File.exist?(opts[:file]) if opts[:file]
+#Trollop::die :directory, "Must exist" unless File.exist?(opts[:directory]) && File.directory?(opts[:directory]) if opts[:directory]
+
+
+#Attest.configure do |config|
+#  config.output_writer = Attest::OutputWriterConfigurator.configure(opts[:outputwriter])
+#  config.testdouble = Attest::TestDoubleConfigurator.configure(opts[:testdouble])
+#  config.possible_tests = Attest::PossibleTestsConfigurator.configure([opts[:file], opts[:directory]])
+#end
+
+#Attest::TestLoader.execute
+
+##if ENV["attest"]
+#  #this_tests "that all the command line parameter symbols are still valid" do 
+#  #end
+##end
