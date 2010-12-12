@@ -1,3 +1,5 @@
+require 'attest'
+
 module Attest
   class TestContainer
 

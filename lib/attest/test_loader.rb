@@ -1,13 +1,16 @@
+require 'attest'
+require 'attest/core_ext/kernel'
+
 module Attest
   class TestLoader 
     class << self
-      def execute
+      def execute(possible_tests, output_writer)
         switch_on_attest_mode
-        Attest.config.possible_tests.each do |ruby_file|
-          Attest.config.current_file = ruby_file 
+        possible_tests.each do |ruby_file|
+          Attest.config.current_file = ruby_file
           load ruby_file 
         end
-        Attest.output_writer.summary
+        output_writer.summary
         switch_off_attest_mode
       end
 

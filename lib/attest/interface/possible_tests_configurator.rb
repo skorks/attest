@@ -5,7 +5,6 @@ module Attest
         raise "Need to know location for tests" if included_locations.compact.size == 0
         possible_test_files = included_test_files included_locations
         files_to_ignore = excluded_test_files excluded_locations
-        puts possible_test_files - files_to_ignore
         possible_test_files - files_to_ignore
       end
 

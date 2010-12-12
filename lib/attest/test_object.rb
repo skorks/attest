@@ -1,3 +1,7 @@
+require 'attest'
+require 'attest/execution_context'
+require 'attest/expectation_result'
+
 module Attest
   class TestObject
     attr_reader :description, :results

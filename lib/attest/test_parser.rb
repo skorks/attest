@@ -1,3 +1,8 @@
+require 'attest/test_container'
+require 'attest/execution_context'
+require 'attest/test_object'
+require 'attest/core_ext/proc'
+
 module Attest
   class TestParser
     def initialize(description, block)
