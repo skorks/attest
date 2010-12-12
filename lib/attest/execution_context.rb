@@ -94,6 +94,5 @@ module Attest
     def source_location
       caller[1][/(.*:\d+):.*/, 1]
     end
-
   end
 end
