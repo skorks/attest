@@ -1,3 +1,5 @@
+require 'singleton'
+
 module Attest
   class Config
     include Singleton

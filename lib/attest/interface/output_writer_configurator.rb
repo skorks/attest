@@ -1,3 +1,7 @@
+require 'attest/output/basic_output_writer'
+require 'attest/output/test_unit_output_writer'
+require 'attest/output/failures_only_output_writer'
+
 module Attest
   class OutputWriterConfigurator
     class << self
@@ -10,11 +14,11 @@ module Attest
       end
 
       def default_output_writer_identifier
-        "basic"
+        "Basic"
       end
 
       def output_writer_identifiers
-        [default_output_writer_identifier, "testunit", "failuresonly"]
+        [default_output_writer_identifier, "TestUnit", "FailuresOnly"]
       end
     end
   end

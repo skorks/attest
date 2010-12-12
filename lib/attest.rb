@@ -1,10 +1,6 @@
 $:.unshift(File.expand_path(File.dirname(__FILE__))) unless $:.include?(File.expand_path(File.dirname(__FILE__)))
-#require "rubygems"
-#require "bundler/setup"
 
-#current_dir = File.expand_path(File.dirname(__FILE__))
-
-#require "singleton"
+require 'attest/config'
 
 #require "#{current_dir}/attest/interface/test_double_configurator"
 #require "#{current_dir}/attest/interface/output_writer_configurator"
@@ -26,21 +22,21 @@ $:.unshift(File.expand_path(File.dirname(__FILE__))) unless $:.include?(File.exp
 #require "#{current_dir}/attest/output/failuresonly_output_writer"
 #require "#{current_dir}/attest/output/testunit_output_writer"
 
-#module Attest
-#  class << self
-#    def configure
-#      config = Attest::Config.instance
-#      block_given? ? yield(config) : config
-#    end
+module Attest
+  class << self
+    def configure
+      config = Attest::Config.instance
+      block_given? ? yield(config) : config
+    end
 
-#    alias :config :configure
+    alias :config :configure
 
-#    Attest::Config.public_instance_methods(false).each do |name|
-#      self.class_eval <<-EOT
-#        def #{name}(*args)
-#          configure.send("#{name}", *args)
-#        end
-#      EOT
-#    end
-#  end
-#end
+    Attest::Config.public_instance_methods(false).each do |name|
+      self.class_eval <<-EOT
+       def #{name}(*args)
+         configure.send("#{name}", *args)
+       end
+      EOT
+    end
+  end
+end

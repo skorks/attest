@@ -1,6 +1,6 @@
 module Attest
   module Output
-    class FailuresonlyOutputWriter
+    class TestUnitOutputWriter
     end
   end
 end

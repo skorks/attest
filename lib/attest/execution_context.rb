@@ -1,3 +1,4 @@
+require 'attest/expectation_result'
 module Attest
   class ExecutionContext
     attr_reader :results

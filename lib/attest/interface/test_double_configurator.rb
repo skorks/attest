@@ -1,3 +1,5 @@
+require 'attest/execution_context'
+
 module Attest
   class TestDoubleConfigurator 
     class << self
@@ -11,15 +13,19 @@ module Attest
 
       def configure_mocha
         begin
+          #how would this work when bundler is in play
           require "mocha_standalone"
         rescue LoadError => e
           puts "Trying to use mocha for test double functionality, but can't find it!"
+          puts "Perhaps you forgot to install the mocha gem."
           exit
         end
-        Attest::ExecutionContext.include(Mocha::API) # need this so that methods like stub() and mock() can be accessed directly from the execution context
+        Attest::ExecutionContext.class_eval do
+          include Mocha::API # need this so that methods like stub() and mock() can be accessed directly from the execution context
+        end
       end
 
-      def configure_nothing
+      def configure_none
       end
 
       def default_test_double_identifier
@@ -27,7 +33,7 @@ module Attest
       end
 
       def test_double_identifiers
-        [default_test_double_identifier, "nothing"]
+        [default_test_double_identifier, "none"]
       end
     end
   end

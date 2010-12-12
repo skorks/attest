@@ -1,9 +1,30 @@
 #!/usr/bin/env ruby
 
 $:.unshift(File.expand_path(File.join(File.dirname(__FILE__), '../lib/'))) unless $:.include?(File.expand_path(File.join(File.dirname(__FILE__), '../lib')))
-puts $:
 require 'trollop'
+
+opts = Trollop::options do
+  banner <<-EOS
+Usage:
+      attest [options]
+where [options] are:
+  EOS
+  opt :include, "Directories or files to search for tests, directories will be recursively expanded", :type => :strings, :required => true
+  opt :exclude, "Directories or files to exclude when searching for tests, will override entries that have been included", :type => :strings
+  opt :testdouble, "The identifier of the test double framework to use, can be 'none'", :type => :string, :default => "mocha"
+  opt :outputwriter, "The output writer to use when running the tests", :type => :string, :default => "Basic"
+end
+
 require 'attest'
+require 'attest/interface/output_writer_configurator'
+require 'attest/interface/test_double_configurator'
+require 'attest/interface/possible_tests_configurator'
+
+Attest.configure do |config|
+  config.output_writer = Attest::OutputWriterConfigurator.configure(opts[:outputwriter])
+  config.testdouble = Attest::TestDoubleConfigurator.configure(opts[:testdouble])
+  config.possible_tests = Attest::PossibleTestsConfigurator.configure(opts[:include], opts[:exclude])
+end
 
 ##need this so that bundler doesn't throw an error after library has been installed as gem and the executable is called
 #ENV["BUNDLE_GEMFILE"] = File.expand_path(File.dirname(__FILE__) + "/../Gemfile")
@@ -29,11 +50,6 @@ require 'attest'
 #Trollop::die :directory, "Must exist" unless File.exist?(opts[:directory]) && File.directory?(opts[:directory]) if opts[:directory]
 
 
-#Attest.configure do |config|
-#  config.output_writer = Attest::OutputWriterConfigurator.configure(opts[:outputwriter])
-#  config.testdouble = Attest::TestDoubleConfigurator.configure(opts[:testdouble])
-#  config.possible_tests = Attest::PossibleTestsConfigurator.configure([opts[:file], opts[:directory]])
-#end
 
 #Attest::TestLoader.execute
 
