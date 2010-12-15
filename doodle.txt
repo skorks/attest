@@ -126,6 +126,7 @@ $ ability to provide multiple directories, files from which to pull the possible
 $ ability to provide multiple directories, file which should be excluded from possible tests
 - need to refactor my output writers to extract all common functionality so that there isn't so much code duplication (perhaps using modules or something)
 - need to refactor my execution context for less duplication and more consistency
+- figure out a better way to read/execute tests if they are defined inline
 
 
 $ BUG: I think I am now counting expectations passes rather than test passes, since i am getting ran 6 test 7 successful for mocka tests, need to look into this further DONE
