@@ -6,10 +6,12 @@ module Attest
     class << self
       def execute(possible_tests, output_writer)
         switch_on_attest_mode
+        output_writer.before_everything
         possible_tests.each do |ruby_file|
           Attest.config.current_file = ruby_file
           load ruby_file 
         end
+        output_writer.after_everything 
         output_writer.summary
         switch_off_attest_mode
       end

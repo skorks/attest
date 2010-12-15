@@ -58,10 +58,10 @@ module Attest
           end
         end
         puts
-        print "Total #{test_count} tests:"
-        Attest::ExpectationResult.status_weights.sort{|a, b| a[1] <=> b[1]}.each {|status, weight| print " #{overall_test_status_hash[status]} #{status.to_s}"}
-        puts
-        print "Total #{expectation_status_hash.inject(0){|sum, tuple| sum + tuple[1]}} assertions:"
+        #print "Total #{test_count} tests:"
+        #Attest::ExpectationResult.status_weights.sort{|a, b| a[1] <=> b[1]}.each {|status, weight| print " #{overall_test_status_hash[status]} #{status.to_s}"}
+        #puts
+        print "#{test_count} tests #{expectation_status_hash.inject(0){|sum, tuple| sum + tuple[1]}} assertions"
         Attest::ExpectationResult.status_weights.sort{|a, b| a[1] <=> b[1]}.each {|status, weight| print " #{expectation_status_hash[status]} #{status.to_s}"}
         puts
       end
