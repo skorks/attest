@@ -1,11 +1,8 @@
-require 'stringio'
-
 module Attest
   module Output
     class TestUnitOutputWriter
       def initialize
         @containers = []
-        @relevant_outputs = StringIO.new
       end
 
       def before_everything
@@ -30,24 +27,24 @@ module Attest
         end
         print '.' unless relevant_result
         print "#{relevant_result.status.upcase[0]}" if relevant_result
-        if relevant_result && relevant_result.failure?
-          @relevant_outputs.puts "#{@containers.last.file}"
-          @relevant_outputs.puts " #{@containers.last.description}"
-          @relevant_outputs.puts "  [#{relevant_result.status.upcase}]"
-          @relevant_outputs.puts "  #{relevant_result.source_location}"
-          @relevant_outputs.puts
-        elsif relevant_result && relevant_result.error?
-          e = relevant_result.attributes[:unexpected_error]
-          @relevant_outputs.puts "#{@containers.last.file}"
-          @relevant_outputs.puts " #{@containers.last.description}"
-          @relevant_outputs.puts "  [#{relevant_result.status.upcase}]"
-          @relevant_outputs.puts "  #{e.class}: #{e.message}"
-          e.backtrace.each do |line|
-            break if line =~ /lib\/attest/
-              @relevant_outputs.puts "   #{line} "
-          end
-          @relevant_outputs.puts
-        end
+        #if relevant_result && relevant_result.failure?
+          #@relevant_outputs.puts "#{@containers.last.file}"
+          #@relevant_outputs.puts " #{@containers.last.description}"
+          #@relevant_outputs.puts "  [#{relevant_result.status.upcase}]"
+          #@relevant_outputs.puts "  #{relevant_result.source_location}"
+          #@relevant_outputs.puts
+        #elsif relevant_result && relevant_result.error?
+          #e = relevant_result.attributes[:unexpected_error]
+          #@relevant_outputs.puts "#{@containers.last.file}"
+          #@relevant_outputs.puts " #{@containers.last.description}"
+          #@relevant_outputs.puts "  [#{relevant_result.status.upcase}]"
+          #@relevant_outputs.puts "  #{e.class}: #{e.message}"
+          #e.backtrace.each do |line|
+            #break if line =~ /lib\/attest/
+              #@relevant_outputs.puts "   #{line} "
+          #end
+          #@relevant_outputs.puts
+        #end
       end
 
       def after_context
@@ -67,16 +64,16 @@ module Attest
             expectation_status_hash = merge_counting_hashes(expectation_status_hash, current_test_statuses[1])
           end
         end
-        puts
+        2.times {puts}
         print "#{test_count} tests #{expectation_status_hash.inject(0){|sum, tuple| sum + tuple[1]}} assertions"
         Attest::ExpectationResult.status_weights.sort{|a, b| a[1] <=> b[1]}.each {|status, weight| print " #{expectation_status_hash[status]} #{status.to_s}"}
         puts
       end
 
       def after_everything
-        @relevant_outputs.rewind
-        2.times {puts}
-        puts @relevant_outputs.readlines
+        #@relevant_outputs.rewind
+        #2.times {puts}
+        #puts @relevant_outputs.readlines
       end
 
       private
