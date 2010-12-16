@@ -15,69 +15,54 @@ module Attest
       @subject = self
     end
 
-    def should_raise(type=nil, &block)
-      result = Attest::ExpectationResult.new
-      begin
-        if block_given?
-          yield
-        end
-      rescue => e
-        result.update(:expected_error => e)
-        if type && type == e.class
-          result.success
-        else
-          result.success
-        end
-      end
-      unless result.success?
-        result.failure 
-      end
-      result.source_location = source_location
-      @results << result
-      self
-    end
-
-    def with_message(regex)
-      result = @results.last
-      if result.success? && result.attributes[:expected_error]
-        if !(result.attributes[:expected_error].message =~ regex)
-          result.failure
-        end
-      end
-      self
-    end
-
-    def should_fail
-      result = Attest::ExpectationResult.new
-      result.failure
-      result.source_location = source_location
-      @results << result
-      self
-    end
-
     def should_be_true(&block)
-      result = Attest::ExpectationResult.new
-      block_return = yield
-      block_return ? result.success : result.failure
-      result.source_location = source_location
-      @results << result
-      self
-    end
-
-    def should_not_raise(&block)
-      should_raise(&block)
-      result = @results.last
-      result.success? ? result.failure : result.success
-      result.source_location = source_location
-      self
+      with_new_result do |result|
+        block_return = yield
+        block_return ? result.success : result.failure
+      end
     end
 
     def should_not_be_true(&block)
       should_be_true(&block)
-      result = @results.last
-      result.success? ? result.failure : result.success
-      result.source_location = source_location
-      self
+      with_last_result do |result|
+        result.success? ? result.failure : result.success
+      end
+    end
+    alias :should_be_false :should_not_be_true
+
+    def should_fail
+      with_new_result do |result|
+        result.failure
+      end
+    end
+    alias :should_not_succeed :should_fail
+
+    def should_not_raise(&block)
+      should_raise(&block)
+      with_last_result do |result|
+        result.success? ? result.failure : result.success
+      end
+    end
+
+    #the only opt so far is :with_message which takes a regex
+    def should_raise(type=nil, opts={}, &block)
+      with_new_result do |result|
+        begin
+          if block_given?
+            yield
+          end
+        rescue => e
+          result.update(:expected_error => e)
+          if expected_error?(type, opts[:with_message], e)
+            result.success
+          else
+            result.failure
+          end
+        end
+        unless result.success?
+          result.failure 
+        end
+      end
     end
 
     #worker methods
@@ -98,6 +83,35 @@ module Attest
     private 
     def source_location
       caller[1][/(.*:\d+):.*/, 1]
+    end
+
+    def with_new_result
+      result = Attest::ExpectationResult.new
+      yield result
+      result.source_location = source_location
+      @results << result
+    end
+
+    def with_last_result
+      result = @results.last
+      yield result
+      result.source_location = source_location
+    end
+
+    def expected_error?(expected_type, expected_message_regex, actual_error)
+      if expected_type.nil? && expected_message_regex.nil? || expected_error_type?(expected_type, actual_error.class) && expected_message_regex.nil? || expected_error_type?(expected_type, actual_error.class) && error_message_matches?(expected_message_regex, actual_error.message)
+        return true
+      else
+        return false
+      end
+    end
+
+    def expected_error_type?(expected_type, actual_type)
+      expected_type == actual_type
+    end
+
+    def error_message_matches?(expected_message_regex, actual_error_message)
+      actual_error_message =~ expected_message_regex
     end
   end
 end
