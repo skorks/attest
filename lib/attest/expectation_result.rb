@@ -4,11 +4,10 @@ module Attest
     class << self
       def status_types
         status_weights.keys
-        #[:success, :failure, :error, :pending]
       end
 
       def status_weights
-        {:success => 1, :failure => 2, :error => 3, :pending => 4}
+        {:success => 1, :failure => 2, :error => 3, :pending => 4, :disabled => 5}
       end
     end
 

@@ -83,10 +83,15 @@ module Attest
     #worker methods
     def create_and_include(module_class)
       class_name = "#{module_class}Class"
-      class_instance = Class.new
-      Object.const_set class_name, class_instance
-      Object.const_get(class_name).include(Object.const_get("#{module_class}"))
-      klass = Object.const_get(class_name)
+      klass = nil
+      begin
+        klass = Object.const_get(class_name)
+      rescue NameError => e
+        class_instance = Class.new
+        Object.const_set class_name, class_instance
+        Object.const_get(class_name).include(Object.const_get("#{module_class}"))
+        klass = Object.const_get(class_name)
+      end
       klass.new
     end
 

@@ -21,8 +21,14 @@ if ENV["attest"]
   end
 
   this_tests CalcMethods do
-    before_all { @module_class = create_and_include(CalcMethods) }
+    before_each { @module_class = create_and_include(CalcMethods) }
 
     test("magically instance of a class that will include the module"){should_be_true{@module_class.double(5)==10}}
+
+    nosetup
+    test("another test without setup"){should_be_true{true}}
+
+    disabled
+    test("a disabled test"){should_be_true{true}}
   end
 end

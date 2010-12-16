@@ -23,8 +23,8 @@ end
 
 if ENV["attest"]
   this_tests MagicCalculator do
-    before_all{@calculator = MagicCalculator.new}
-    after_all{@calculator = nil}
+    before_each{@calculator = MagicCalculator.new}
+    after_each{@calculator = nil}
 
     test("a pending test")
     test("deliberately fail the test"){should_fail}
@@ -45,6 +45,8 @@ if ENV["attest"]
       should_not_raise{@calculator.increment 4}
       should_raise{ @calculator.non_existant }
     end
-    test("should not have access to calculator instance since run without setup", nosetup){should_be_true{@calculator == nil}}
+
+    nosetup 
+    test("should not have access to calculator instance since run without setup"){should_be_true{@calculator == nil}}
   end
 end

@@ -12,6 +12,7 @@ module Attest
       @after = nil
       @tests = {}
       @nosetup_tests = {}
+      @disabled_tests = {}
       @freestyle_tests = []
     end
 
@@ -23,21 +24,32 @@ module Attest
       test_container
     end
 
-    def before_all(&block)
+    def before_each(&block)
       @before = block 
     end
 
-    def after_all(&block)
+    def after_each(&block)
       @after = block
     end
 
-    def test(description, nosetup_test=false, &block)
+    def test(description, &block)
+      if @next_test_without_setup
+        @nosetup_tests[description] = true
+      end
+      if @next_test_disabled
+        @disabled_tests[description] = true
+      end
       @tests[description] = block
-      @nosetup_tests[description] = true if nosetup_test
+      @next_test_without_setup = false
+      @next_test_disabled = false
     end
 
-    def nosetup 
-      true
+    def nosetup
+      @next_test_without_setup = true
+    end
+
+    def disabled
+      @next_test_disabled = true
     end
 
     def method_missing(name, *args, &block)
@@ -52,6 +64,7 @@ module Attest
       @tests.each_pair do |description, test_block|
         test_object = TestObject.new(description, test_block)
         test_object.nosetup = true if @nosetup_tests[description]
+        test_object.disabled = true if @disabled_tests[description]
         test_object.add_setup(@before)
         test_object.add_cleanup(@after)
         test_container.add(test_object)

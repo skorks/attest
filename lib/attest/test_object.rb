@@ -5,7 +5,7 @@ require 'attest/expectation_result'
 module Attest
   class TestObject
     attr_reader :description, :results
-    attr_accessor :nosetup
+    attr_accessor :nosetup, :disabled
     def initialize(description, test_block)
       @description = description
       @test_block = test_block
@@ -34,15 +34,16 @@ module Attest
            context
          end
        end
-       context.instance_eval(&@before) if @before && !nosetup
-       context.instance_eval(&@test_block) if @test_block
-       context.instance_eval(&@after) if @after && !nosetup
+       context.instance_eval(&@before) if @before && !nosetup && !disabled
+       context.instance_eval(&@test_block) if @test_block && !disabled
+       context.instance_eval(&@after) if @after && !nosetup && !disabled
       rescue => e
         error = e
       ensure
         @results = context.results
         add_unexpected_error_result(error) if error
         add_pending_result unless @test_block
+        add_disabled_result if disabled
         add_success_result if @results.size == 0
       end
       Attest.output_writer.after_test(self)
@@ -58,6 +59,12 @@ module Attest
     def add_pending_result
       result = Attest::ExpectationResult.new
       result.pending
+      @results << result
+    end
+
+    def add_disabled_result
+      result = Attest::ExpectationResult.new
+      result.disabled
       @results << result
     end
 

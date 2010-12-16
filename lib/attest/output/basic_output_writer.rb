@@ -78,7 +78,7 @@ module Attest
           expectation_status_hash[result.status.to_sym] += 1
           dominant_result = result if result > dominant_result
         end
-        raise "Unexpected result status encountered! WTF!!!" if expectation_status_hash.keys.size > 4
+        raise "Unexpected result status encountered! WTF!!!" if expectation_status_hash.keys.size > Attest::ExpectationResult.status_types.size
         raise "Test without status encountered, all test should have a status!" unless dominant_result 
         overall_test_status_hash[dominant_result.status.to_sym] += 1
         [overall_test_status_hash, expectation_status_hash]
