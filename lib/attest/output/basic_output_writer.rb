@@ -15,6 +15,10 @@ module Attest
         puts " #{ container.description }"
       end
 
+      def remove_last_context
+        @containers.delete @containers.last
+      end
+
       def before_test(test_object)
         print "  - #{test_object.description}"
       end
@@ -67,6 +71,13 @@ module Attest
       end
 
       def after_everything
+      end
+
+      def error(e)
+        puts "#{e.class}: #{e.message}"
+        e.backtrace.each do |line|
+          puts " #{line} "
+        end
       end
 
       private

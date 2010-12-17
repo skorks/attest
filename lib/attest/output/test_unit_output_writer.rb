@@ -76,6 +76,9 @@ module Attest
         #puts @relevant_outputs.readlines
       end
 
+      def error(e)
+      end
+
       private
       def determine_test_status(test_object)
         expectation_status_hash = blank_status_hash

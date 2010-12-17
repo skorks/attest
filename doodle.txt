@@ -120,7 +120,7 @@ $ should be able to disable a test so that it is not executed, but is listed as 
 $ refactor the command line handling to split out actual cli stuff from the attest code that acts on the cli params DONE
 $ should be able to configure attest to be used without any test double framework at all DONE
 $ create a better examples directory more consistent test naming etc DONE
-- turn the example directory into a black box test suite, perhaps provide a testing_output_writer and use that somehow, this is on top of the basic unit tests that still need to be built
+- as part of the spec test suite create a set of blackbox tests that replicate the functionality in the examples directory to test that actual functionality is working correctly, perhaps create some sort of testing output writer and use that for asserting stuff possibly, these will esssentially be acceptance tests
 $ combine assertion reporting and test reporting, we only really care about assertion reporting, no need to print out separate line for both DONE
 $ ability to provide multiple directories, files from which to pull the possible tests DONE
 $ ability to provide multiple directories, file which should be excluded from possible tests DONE
@@ -128,7 +128,10 @@ $ ability to provide multiple directories, file which should be excluded from po
 $ need to refactor my execution context for less duplication and more consistency DONE
 - figure out a better way to read/execute tests if they are defined inline
 $ rename before_all to be before each DONE
-- need a before_each and a before_all which gets executed before all the test in the group, currently have a before_all which really acts like a before_each not good
+$ need a before_each and a before_all which gets executed before all the test in the group, currently have a before_all which really acts like a before_each not good DONE
+$ possible bug or unexpected feature, if test contains no assertions in the output then it is treated by the output writer as having an implicit assertion/expectation (a success expectation) this is ok I think DONE
+$ currently unable to specify expectations in before_all and after_all and have them be picked up, this should work, expectations should belong to the test container rather than to any specific test object, on second thoughts maybe shouldn't have expectations on before and after all DONE
+$ should be able to specify expectations on the before_each and after_each DONE
 
 
 $ BUG: I think I am now counting expectations passes rather than test passes, since i am getting ran 6 test 7 successful for mocka tests, need to look into this further DONE

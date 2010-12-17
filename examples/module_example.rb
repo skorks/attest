@@ -21,6 +21,10 @@ if ENV["attest"]
   end
 
   this_tests CalcModule do
+    before_all do 
+      @hello = [1,2,3]
+    end
+
     before_each { @module_class = create_and_include(CalcModule) }
 
     test("magically instance of a class that will include the module"){should_be_true{@module_class.double(5)==10}}
@@ -30,5 +34,16 @@ if ENV["attest"]
 
     disabled
     test("a disabled test"){should_be_true{true}}
+
+    test("accessing object which was created in a before_all block") do 
+      should_be_true{@hello.size == 3}
+      @hello << 5
+      should_be_true{@hello.size == 4}
+    end
+
+    test("accessing object from before_all block again to make sure it is the same object") do 
+      should_be_true{@hello.last == 5}
+      @hello << 10
+    end
   end
 end

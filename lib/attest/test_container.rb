@@ -18,8 +18,16 @@ module Attest
 
     def execute_all
       Attest.output_writer.before_context(self)
-      @test_objects.each do |test_object|
-        test_object.run
+      container_context = Attest::ExecutionContext.new
+      begin
+        container_context.instance_eval(&@before) if @before
+        @test_objects.each do |test_object|
+          test_object.run container_context
+        end
+        container_context.instance_eval(&@after) if @after
+      rescue => e
+        Attest.output_writer.error(e)
+        Attest.output_writer.remove_last_context
       end
       Attest.output_writer.after_context
     end

@@ -9,21 +9,21 @@ module Attest
     def initialize(description, test_block)
       @description = description
       @test_block = test_block
-      @results = nil
+      @results = []
     end
 
-    def run
+    def run(persistent_context)
       Attest.output_writer.before_test(self)
       error = nil
-      context = Attest::ExecutionContext.new
+      context = Attest::ExecutionContext.new(persistent_context)
       begin
-       Object.class_eval do
-         define_method :itself do
-           subject = self
-           context.instance_eval {@subject = subject}
-           context
-         end
-       end
+       #Object.class_eval do
+         #define_method :itself do
+           #subject = self
+           #context.instance_eval {@subject = subject}
+           #context
+         #end
+       #end
        context.instance_eval(&@before) if @before && !nosetup && !disabled
        context.instance_eval(&@test_block) if @test_block && !disabled
        context.instance_eval(&@after) if @after && !nosetup && !disabled
