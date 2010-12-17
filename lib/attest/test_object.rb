@@ -41,26 +41,24 @@ module Attest
 
     private
     def add_unexpected_error_result(error)
-      result = Attest::ExpectationResult.new(:unexpected_error => error)
-      result.error
-      @results << result
+      create_and_add_result(:unexpected_error => error) {|result| result.error}
     end
 
     def add_pending_result
-      result = Attest::ExpectationResult.new
-      result.pending
-      @results << result
+      create_and_add_result{|result| result.pending}
     end
 
     def add_disabled_result
-      result = Attest::ExpectationResult.new
-      result.disabled
-      @results << result
+      create_and_add_result{|result| result.disabled}
     end
 
     def add_success_result
-      result = Attest::ExpectationResult.new
-      result.success
+      create_and_add_result{|result| result.success}
+    end
+
+    def create_and_add_result(opts={})
+      result = Attest::ExpectationResult.new(opts)
+      yield result
       @results << result
     end
   end

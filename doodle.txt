@@ -131,7 +131,7 @@ $ should be able to specify expectations on the before_each and after_each DONE
 - more different types of expectations, should_equal(5){5}, should_not_equal, should_be_same(obj), should_be_same_as, should_not_be_same, should_not_be_same_as, should_not_fail, should_pass, should_be_around(6){5}.plus_minus(1), should_be_a/an(some_lambda){"hello"}, should_match/should_match_a/should_match_an, more thought regarding how to specify a custom matcher, something for arrays and hashes, should_include(some_array), perhaps ability to do blocks and do without blocks i.e. should_include(5, some_array)
 - refactor expectations so that they can be used without a block but simply with parameters
 - as part of the spec test suite create a set of blackbox tests that replicate the functionality in the examples directory to test that actual functionality is working correctly, perhaps create some sort of testing output writer and use that for asserting stuff possibly, these will esssentially be acceptance tests
-- need to refactor my output writers to extract all common functionality so that there isn't so much code duplication (perhaps using modules or something)
+$ need to refactor my output writers to extract all common functionality so that there isn't so much code duplication (perhaps using modules or something) DONE
 - create a rake task that can be easily configured into a rake file with all the relevant configuration values so that attest can be run through rake instead of just the command line
 - figure out a better way to read/execute tests if they are defined inline
 
