@@ -4,6 +4,7 @@ module Attest
   class TestContainer
 
     attr_reader :description, :test_objects, :file
+    attr_accessor :before, :after
 
     def initialize(description)
       @file = Attest.current_file

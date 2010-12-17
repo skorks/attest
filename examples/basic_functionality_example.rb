@@ -1,4 +1,4 @@
-class MagicCalculator 
+class ACalculator 
   def remember_value(value)
     @value_in_memory = value
   end
@@ -22,8 +22,8 @@ class MagicCalculator
 end
 
 if ENV["attest"]
-  this_tests MagicCalculator do
-    before_each{@calculator = MagicCalculator.new}
+  this_tests ACalculator do
+    before_each{@calculator = ACalculator.new}
     after_each{@calculator = nil}
 
     test("a pending test")

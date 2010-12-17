@@ -8,6 +8,8 @@ module Attest
     def initialize(description, block)
       @description = description
       @block = block
+      @before_all = nil
+      @after_all = nil
       @before = nil
       @after = nil
       @tests = {}
@@ -22,6 +24,14 @@ module Attest
       build_test_objects_and_add_to_container test_container
       build_freestyle_test_objects_and_add_to test_container
       test_container
+    end
+
+    def before_all(&block)
+      @before_all = block
+    end
+
+    def after_all(&block)
+      @after_all = block
     end
 
     def before_each(&block)
@@ -61,12 +71,14 @@ module Attest
 
     private
     def build_test_objects_and_add_to_container(test_container)
+      test_container.before = @before_all
+      test_container.after = @after_all
       @tests.each_pair do |description, test_block|
         test_object = TestObject.new(description, test_block)
         test_object.nosetup = true if @nosetup_tests[description]
         test_object.disabled = true if @disabled_tests[description]
-        test_object.add_setup(@before)
-        test_object.add_cleanup(@after)
+        test_object.before = @before
+        test_object.after = @after
         test_container.add(test_object)
       end
     end

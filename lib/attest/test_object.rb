@@ -5,21 +5,11 @@ require 'attest/expectation_result'
 module Attest
   class TestObject
     attr_reader :description, :results
-    attr_accessor :nosetup, :disabled
+    attr_accessor :nosetup, :disabled, :before, :after
     def initialize(description, test_block)
       @description = description
       @test_block = test_block
-      @before = nil
-      @after = nil
       @results = nil
-    end
-
-    def add_setup(block)
-      @before = block
-    end
-
-    def add_cleanup(block)
-      @after = block
     end
 
     def run

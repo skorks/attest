@@ -119,13 +119,13 @@ $ should be able to disable a test so that it is not executed, but is listed as 
 - more different types of expectations, should_equal(5){5}, should_not_equal, should_be_same(obj), should_be_same_as, should_not_be_same, should_not_be_same_as, should_not_fail, should_pass, should_be_around(6){5}.plus_minus(1), should_be_a/an(some_lambda){"hello"}, should_match/should_match_a/should_match_an, more thought regarding how to specify a custom matcher, something for arrays and hashes, should_include(some_array), perhaps ability to do blocks and do without blocks i.e. should_include(5, some_array)
 $ refactor the command line handling to split out actual cli stuff from the attest code that acts on the cli params DONE
 $ should be able to configure attest to be used without any test double framework at all DONE
-- create a better examples directory more consistent test naming etc
+$ create a better examples directory more consistent test naming etc DONE
 - turn the example directory into a black box test suite, perhaps provide a testing_output_writer and use that somehow, this is on top of the basic unit tests that still need to be built
 $ combine assertion reporting and test reporting, we only really care about assertion reporting, no need to print out separate line for both DONE
 $ ability to provide multiple directories, files from which to pull the possible tests DONE
 $ ability to provide multiple directories, file which should be excluded from possible tests DONE
 - need to refactor my output writers to extract all common functionality so that there isn't so much code duplication (perhaps using modules or something)
-- need to refactor my execution context for less duplication and more consistency
+$ need to refactor my execution context for less duplication and more consistency DONE
 - figure out a better way to read/execute tests if they are defined inline
 $ rename before_all to be before each DONE
 - need a before_each and a before_all which gets executed before all the test in the group, currently have a before_all which really acts like a before_each not good
