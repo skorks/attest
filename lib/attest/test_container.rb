@@ -17,7 +17,7 @@ module Attest
     end
 
     def execute_all
-      Attest.output_writer.before_context(self)
+      Attest.output_writer.before_container(self)
       container_context = Attest::ExecutionContext.new
       begin
         container_context.instance_eval(&@before) if @before
@@ -26,10 +26,10 @@ module Attest
         end
         container_context.instance_eval(&@after) if @after
       rescue => e
-        Attest.output_writer.error(e)
-        Attest.output_writer.remove_last_context
+        Attest.output_writer.an_error(e)
+        Attest.output_writer.ignore_container(self)
       end
-      Attest.output_writer.after_context
+      Attest.output_writer.after_container(self)
     end
   end
 end
