@@ -16,7 +16,6 @@ module Attest
       @persistent_context = context
       own_instance_variables = self.instance_variables
       context.instance_variables.each do |instance_variable|
-        #TODO need to make sure we don't overwrite the @result array and any other variables we actually need
         unless own_instance_variables.include? instance_variable
           self.instance_variable_set(instance_variable.to_s, context.instance_variable_get(instance_variable))
         end
