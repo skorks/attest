@@ -22,18 +22,53 @@ module Attest
       end
     end
 
-    def should_be_true(&block)
+    def should_be(expected_lambda, &block)
       with_new_result do |result|
-        block_return = yield
-        block_return ? result.success : result.failure
+        expected_lambda.call == yield ? result.success : result.failure
       end
     end
+    alias :should_be_a :should_be
+    alias :should_be_an :should_be
+    alias :should_match :should_be
+    alias :should_match_a :should_be
+    alias :should_match_an :should_be
 
-    def should_not_be_true(&block)
-      should_be_true(&block)
-      with_last_result do |result|
-        result.success? ? result.failure : result.success
+    def should_not_be(expected_lambda, &block)
+      with_new_result do |result|
+        expected_lambda.call != yield ? result.success : result.failure
       end
+    end
+    alias :should_not_be_a :should_not_be
+    alias :should_not_be_an :should_not_be
+    alias :should_not_match :should_not_be
+    alias :should_not_match_a :should_not_be
+    alias :should_not_match_an :should_not_be
+
+    def should_be_same(expected_value, actual_value=nil, &block)
+      derive_result_status_from_method(expected_value, actual_value, :"equal?", &block)
+    end
+    alias :should_be_same_as :should_be_same
+
+    def should_not_be_same(expected_value, actual_value=nil, &block)
+      derive_result_status_from_method_negated(expected_value, actual_value, :"equal?", &block)
+    end
+    alias :should_not_be_same_as :should_not_be_same
+
+    def should_equal(expected_value, actual_value=nil, &block)
+      derive_result_status_from_method(expected_value, actual_value, :"==", &block)
+    end
+
+    def should_not_equal(expected_value, actual_value=nil, &block)
+      derive_result_status_from_method_negated(expected_value, actual_value, :"==", &block)
+    end
+    alias :should_not_be_equal :should_not_equal
+
+    def should_be_true(actual_value=nil, &block)
+      derive_result_status_from_method(true, actual_value, :"==", &block)
+    end
+
+    def should_not_be_true(actual_value = nil, &block)
+      derive_result_status_from_method(false, actual_value, :"==", &block)
     end
     alias :should_be_false :should_not_be_true
 
@@ -43,6 +78,14 @@ module Attest
       end
     end
     alias :should_not_succeed :should_fail
+
+    def should_succeed
+      with_new_result do |result|
+        result.success
+      end
+    end
+    alias :should_not_fail :should_succeed
+    alias :should_pass :should_succeed
 
     def should_not_raise(&block)
       should_raise(&block)
@@ -88,6 +131,24 @@ module Attest
     end
 
     private 
+    def derive_result_status_from_method(expected_value, actual_value, method, negated=false, &block)
+      with_new_result do |result|
+        if block_given?
+          method_return = expected_value.send(method, yield)
+          method_return = !method_return if negated
+          method_return ? result.success : result.failure
+        else
+          method_return = expected_value.send(method, actual_value)
+          method_return = !method_return if negated
+          method_return ? result.success : result.failure
+        end
+      end
+    end
+
+    def derive_result_status_from_method_negated(expected_value, actual_value, method, &block)
+      derive_result_status_from_method(expected_value, actual_value, method, true, &block)
+    end
+
     def source_location
       caller[1][/(.*:\d+):.*/, 1]
     end
