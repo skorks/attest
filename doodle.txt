@@ -137,6 +137,7 @@ $ need to refactor my output writers to extract all common functionality so that
 - figure out a better way to read/execute tests if they are defined inline
 - timing for how long it took to complete the whole test suite 
 - better failure reporting
+- need to be able to define helper methods within tests somehow that can be called from within tests and setups etc.
 
 
 $ BUG: I think I am now counting expectations passes rather than test passes, since i am getting ran 6 test 7 successful for mocka tests, need to look into this further DONE

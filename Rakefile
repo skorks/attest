@@ -12,6 +12,7 @@ begin
     gem.authors = ["Alan Skorkin"]
     #gem.add_runtime_dependency "bundler"
     #gem.add_runtime_dependency "mocha"
+    gem.add_development_dependency "fakefs"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
