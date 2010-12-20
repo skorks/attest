@@ -135,6 +135,8 @@ $ need to refactor my output writers to extract all common functionality so that
 - create a better set of unit tests that are not as black box
 - create a rake task that can be easily configured into a rake file with all the relevant configuration values so that attest can be run through rake instead of just the command line
 - figure out a better way to read/execute tests if they are defined inline
+- timing for how long it took to complete the whole test suite 
+- better failure reporting
 
 
 $ BUG: I think I am now counting expectations passes rather than test passes, since i am getting ran 6 test 7 successful for mocka tests, need to look into this further DONE
@@ -151,6 +153,7 @@ $ POC remove trollop as a dependency to minimize dependecies, either that, or pu
 
 next release 2
 
+- perhaps keep track of timings for how long it took to complete each of the test containers as well as each of the individual tests so that can track stats for test execution speed
 - still more matchers, should_be_around(6, :plus_minus => 1){5} that should work for floats also, maybe give ability to do predicate matchers, i.e if objects responds to a question mark method like include? should be able to do should_include 5, some_array, also think about a good way to create more flexible matchers, more flexible than lambda based ones so that can supply parameters to matchers
 - write and integrate own test double framework (look at rr for syntax suggestions)
 - create some tests using the framework itself around the framework classes (minimal test suite)
