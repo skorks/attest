@@ -193,13 +193,13 @@ There is an example of using mocha with attest in the examples directory, have a
 - tests can be marked as disabled
 - there is a rake task that is part of attest you can configure it in your project and execute your attest tests using rake instead of using the command line, the advantage is you configure once instead of every time you run, the disadvantage is less flexibility, i am looking to build this area out a bit more in future so you'll be able to do more with rake, here is an example of how to configure it:
 
-  require 'attest/rake/attesttask'
-  Rake::AttestTask.new do |attest|
-    attest.include = ["spec/"]
-    attest.exclude = ["spec/tmp"]
-    attest.outputwriter = "Basic"
-    attest.testdouble = "mocha"
-  end
+    require 'attest/rake/attesttask'
+    Rake::AttestTask.new do |attest|
+      attest.include = ["spec/"]
+      attest.exclude = ["spec/tmp"]
+      attest.outputwriter = "Basic"
+      attest.testdouble = "mocha"
+    end
 
 - mocha integration to provide test double (mocking/stubbing) functionality, although I have a suspicion that it may not play nice with bundler the way it is now (need to confirm this), but if you have the gem installed normally everything should work fine, other test double frameworks are on the way
 
