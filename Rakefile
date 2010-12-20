@@ -11,7 +11,7 @@ begin
     gem.homepage = "http://github.com/skorks/attest"
     gem.authors = ["Alan Skorkin"]
     #gem.add_runtime_dependency "bundler"
-    #gem.add_runtime_dependency "mocha"
+    gem.add_development_dependency "mocha"
     gem.add_development_dependency "fakefs"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
@@ -25,6 +25,15 @@ Rake::TestTask.new(:test) do |test|
   test.libs << 'lib' << 'test'
   test.pattern = 'test/**/test_*.rb'
   test.verbose = true
+end
+
+$:.unshift(File.expand_path(File.join(File.dirname(__FILE__), '/lib/'))) unless $:.include?(File.expand_path(File.join(File.dirname(__FILE__), '/lib')))
+require 'attest/rake/attesttask'
+Rake::AttestTask.new do |attest|
+  attest.include = ["spec/"]
+  attest.exclude = ["spec/tmp"]
+  attest.outputwriter = "Basic"
+  attest.testdouble = "mocha"
 end
 
 begin

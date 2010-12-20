@@ -131,13 +131,12 @@ $ should be able to specify expectations on the before_each and after_each DONE
 $ more different types of expectations, should_equal(5){5}, should_not_equal, should_be_same(obj), should_be_same_as, should_not_be_same, should_not_be_same_as, should_not_fail, should_pass, should_be_around(6){5}.plus_minus(1), should_be_a/an(some_lambda){"hello"}, should_match/should_match_a/should_match_an, more thought regarding how to specify a custom matcher, something for arrays and hashes, should_include(some_array), perhaps ability to do blocks and do without blocks i.e. should_include(5, some_array) DONE
 $ refactor expectations so that they can be used without a block but simply with parameters DONE
 $ need to refactor my output writers to extract all common functionality so that there isn't so much code duplication (perhaps using modules or something) DONE
-- as part of the spec test suite create a set of blackbox tests that replicate the functionality in the examples directory to test that actual functionality is working correctly, perhaps create some sort of testing output writer and use that for asserting stuff possibly, these will esssentially be acceptance tests
-- create a better set of unit tests that are not as black box
-- create a rake task that can be easily configured into a rake file with all the relevant configuration values so that attest can be run through rake instead of just the command line
-- figure out a better way to read/execute tests if they are defined inline
+$ create a rake task that can be easily configured into a rake file with all the relevant configuration values so that attest can be run through rake instead of just the command line DONE
 - timing for how long it took to complete the whole test suite 
 - better failure reporting
 - need to be able to define helper methods within tests somehow that can be called from within tests and setups etc.
+- figure out if mocha works properly when using bundler, my guess it will not
+- modify the readme, mention the problems wil inline test definition, mention the new expectations, mentiont about the new output writers, mention how output reporting works, disabled tests, test double framework configuration, inclusion and exclusion, before_all and before_each
 
 
 $ BUG: I think I am now counting expectations passes rather than test passes, since i am getting ran 6 test 7 successful for mocka tests, need to look into this further DONE
@@ -154,6 +153,10 @@ $ POC remove trollop as a dependency to minimize dependecies, either that, or pu
 
 next release 2
 
+- refactor the duplication between the attest executable in bin and the attest rake task
+- figure out a better way to read/execute tests if they are defined inline
+- as part of the spec test suite create a set of blackbox tests that replicate the functionality in the examples directory to test that actual functionality is working correctly, perhaps create some sort of testing output writer and use that for asserting stuff possibly, these will esssentially be acceptance tests
+- create a better set of unit tests that are not as black box
 - perhaps keep track of timings for how long it took to complete each of the test containers as well as each of the individual tests so that can track stats for test execution speed
 - still more matchers, should_be_around(6, :plus_minus => 1){5} that should work for floats also, maybe give ability to do predicate matchers, i.e if objects responds to a question mark method like include? should be able to do should_include 5, some_array, also think about a good way to create more flexible matchers, more flexible than lambda based ones so that can supply parameters to matchers
 - write and integrate own test double framework (look at rr for syntax suggestions)

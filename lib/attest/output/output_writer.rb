@@ -1,8 +1,10 @@
+require 'attest/output/output_writer_interface'
 require 'attest/expectation_result'
 
 module Attest
   module Output
     class OutputWriter
+      include OutputWriterInterface
       def initialize
         self.instance_variable_set("@containers", [])
       end
