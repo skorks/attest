@@ -2,13 +2,13 @@
 
     attest (vb) - to affirm the correctness or truth of
 
-Attest allows you to define spec-like tests inline (within the same file as your actual code) which means almost non-existant overheads to putting some tests around your code. Of course that is just a feature that I wanted, you can just as easily put the tests into a separate file for a more traditional experience. Overall, attest tries to not be too prescriptive regarding the 'right' way to test. You want to test private methods - go ahead, access unexposed instance variables - no worries, pending and disabled tests are first class citizens. Don't like the output format, use a different one or write your own (at least that the plan for the future, currently there is only one output writer :P). You should be allowed to test your code the way you want to, not the way someone else says you have to!
+Attest allows you to define spec-like tests inline (within the same file as your actual code) which means almost non-existant overheads to putting some tests around your code. Of course that is just a feature that I wanted, you can just as easily put the tests into a separate file for a more traditional experience. Overall, attest tries to not be too prescriptive regarding the 'right' way to test. You want to test private methods - go ahead, access unexposed instance variables - no worries, pending and disabled tests are first class citizens. Don't like the output format, use a different one or write your own. You should be allowed to test your code the way you want to, not the way someone else says you have to!
 
 == A Quick Example
 
-Currently the functionality is pretty minimal, almost fully described by the example below. But as you can see the features are complete enough to make it a fully fledged testing framework. The upside is, there is not a lot to remember/learn :P. Anyways, here is an example:
+Below is an example of how to use the basic functionality, everything is reasonably straight forward, there are more examples in the examples directory including this one:
 
-  class MagicCalculator 
+  class ACalculator 
     def remember_value(value)
       @value_in_memory = value
     end
@@ -32,19 +32,19 @@ Currently the functionality is pretty minimal, almost fully described by the exa
   end
 
   if ENV["attest"]
-    this_tests MagicCalculator do
-      before_all{@calculator = MagicCalculator.new}
-      after_all{@calculator = nil}
+    this_tests ACalculator do
+      before_each{@calculator = ACalculator.new}
+      after_each{@calculator = nil}
 
       test("a pending test")
       test("deliberately fail the test"){should_fail}
       test("a successful empty test"){}
       test("should NOT raise an error") {should_not_raise{@calculator.increment 4}}
       test("it should raise an error, don't care what kind") {should_raise {@calculator.divide 5, 0}}
-      test("it should raise a ZeroDivisionError error with a message"){should_raise(ZeroDivisionError){@calculator.divide 5, 0}.with_message(/divided by.*/)}
-      test("adding 5 and 2 does not equal 8") { should_not_be_true{ @calculator.add(5,2) == 8 } } 
+      test("it should raise a ZeroDivisionError error with a message"){should_raise(ZeroDivisionError, :with_message => /divided by.*/){@calculator.divide 5, 0}}
+      test("adding 5 and 2 does not equal 8") { should_not_be_true(@calculator.add(5,2) == 8) } 
       test("this test will be an error when non-existant method called") {should_be_true{ @calculator.non_existant }}
-      test("should be able to call a private method like it was public"){should_be_true{@calculator.multiply(2,2) == 4}}
+      test("should be able to call a private method like it was public"){should_be_true(@calculator.multiply(2,2) == 4)}
 
       test "access an instance variable without explicitly exposing it" do
         @calculator.remember_value(5)
@@ -55,33 +55,73 @@ Currently the functionality is pretty minimal, almost fully described by the exa
         should_not_raise{@calculator.increment 4}
         should_raise{ @calculator.non_existant }
       end
-      test("should not have access to calculator instance since run without setup", nosetup){should_be_true{@calculator == nil}}
+
+      nosetup 
+      test("should not have access to calculator instance since run without setup"){should_be_true(@calculator == nil)}
+
+      test("should_equal expectations with and without block") do
+        should_equal 5, 5
+        should_equal(5){5}
+        should_not_equal 7, 8
+        should_not_be_equal(8){9}
+      end
+
+      test("should_be_same and should_not_be_same with and without block") do
+        should_be_same 5, 5
+        should_not_be_same(5){5.0}
+        string = "a"
+        should_be_same_as(string, string)
+        should_not_be_same_as("a"){string}
+      end
+
+      test("should_be_true without block") {should_be_true 5 == 5.0}
+      test("should_not_be_true without block") {should_be_false 5 == 6}
+
+      test("should_succeed test") do 
+        should_succeed
+      end
+
+      test("should_be a lambda based matcher test") do 
+        great = lambda{"great"}
+        should_be(great){"great"}
+        should_not_be(great){"bad"}
+
+        joke = lambda{"knock, knock"}
+        should_be_a(joke){"knock, knock"}
+        should_not_be_a(joke){"hello"}
+      end
     end
   end
 
-Here are a few things to note. All of that stuff would live in the same file and you would execute it in the following fashion:
+== A Note About Inline Tests
 
-  attest -f my_ruby_file.rb
+The original premise was to define the tests inline, in the same file as the code, to that end we wrap the test code in an if statement controlled by an env variable. However this is not ideal, it does work, but if you have complex code it can cause issues. The issues are due to the fact that in order to execute the tests defined inline we potentially have to load the actual code under test twice, so if you have code that can potentially break because of this it likely will. For example alias chains are likely to cause spectacular death, method missing interactions might do the same. The point is, inline tests are only for simple code at the moment. In the future I am looking at parsing the test code separately at which point these issues will disappear and you will be able to play with inline tests fully. In the meantime, inline tests for simple code, otherwise do the traditional thing and split the test code out into its own file. If you do split out into separate file, you won't need to wrap the if statement with the env variable around your test code so there is some advantage to doing that. For an example see some of the test under the spec/ directory in the code these use attest to test some of its own classes (i.e. eating own dogfood).
 
-The if statement with the ENV is necessary so that the test code is comlpetely ignored unless you're running it via the 'attest' executable. If anyone can think of a better way of doing it, I am open to ideas. If you have a bunch of files that live in a directory and you want to run the test that live in all of them:
 
-  attest -d directory_with_ruby_files
+== How Stuff Works
 
 As per usual, to get some help:
 
   attest --help
 
-If your file needs other ruby files for it to function (as they often do :)), you will need to set up the requires yourself within the 'if ENV' block. I'll give it more smarts in this area at a later date.
+This should tell you how to launch stuff, but the short story is this. You need to provide some files and/or directories you want to include and optionally some you want to exclude e.g.:
 
-If you want to put the tests in a separate file, you can do that, but you will still need to wrap them in an 'if ENV' block and set up the 'requires' yourself as well, once again more smarts will hopefully appear at a later date.
+  attest -i file1.rb file2.rb dir_with_ruby_files/ -e dir_with_ruby_files/file3.rb
+
+All the ruby files you provide will be used as is, all the directories will be trawled to find ruby files, in the end the system ends up with a bunch of ruby files to include and a bunch to exclude. The excludes trump the includes so if you have the same file in the includes list and the excludes it will be excluded. After we intersect the includes and the excludes we end up with a final list of files to execute. These will be deemed the test files and will be executed as such.
+
+If your file needs other ruby files for it to function (as they often do :)), you will need to set up the requires yourself. So if your test code is in a separate file, you will need to require the file under test and whatever else it needs to work properly. Of course if your test is inline then this is hopefully not an issue.
 
 Currently the output produces when running will look something like this:
 
-  >~/projects/attest$ bin/attest -f examples/magic_calculator.rb 
-  /home/yellow/projects/attest/examples/magic_calculator.rb:
-   MagicCalculator
+  >~/projects/attest$ attest -i examples/basic_functionality_example.rb
+  /home/alan/projects/attest/examples/basic_functionality_example.rb:
+   ACalculator
     - a pending test [PENDING]
     - deliberately fail the test [FAILURE]
+
+       /home/alan/projects/attest/examples/basic_functionality_example.rb:30
+
     - a successful empty test
     - should NOT raise an error
     - it should raise an error, don't care what kind
@@ -89,26 +129,59 @@ Currently the output produces when running will look something like this:
     - adding 5 and 2 does not equal 8
     - this test will be an error when non-existant method called [ERROR]
 
-       NoMethodError: undefined method `non_existant' for #<MagicCalculator:0x00000003097b60>
+       NoMethodError: undefined method `non_existant' for #<ACalculator:0x9e09050>
 
     - should be able to call a private method like it was public
     - access an instance variable without explicitly exposing it
     - multiple expectations in one test
     - should not have access to calculator instance since run without setup
+    - should_equal expectations with and without block
+    - should_be_same and should_not_be_same with and without block
+    - should_be_true without block
+    - should_not_be_true without block
+    - should_succeed test
+    - should_be a lambda based matcher test
 
 
-  Ran 12 tests: 9 successful, 1 failed, 1 errors, 1 pending
+  18 tests 28 expectations 25 success 1 failure 1 error 1 pending 0 disabled
+  Finished in 19.01 milliseconds
 
-Currently that's the only kind of output format, I'll whip up some more output formats at a later date and/or give ability to supply your own.
+The above output is produced by the Basic output format. There are two other output formats, the TestUnit and the FailuresOnly. The Basic one is used by default, but you can specify the others like this:
+
+  attest -i examples/basic_functionality_example.rb -o TestUnit
+
+The above will produce output similar to:
+
+  PF.....E..........
+
+  18 tests 28 expectations 25 success 1 failure 1 error 1 pending 0 disabled
+  Finished in 20.05 milliseconds
+
+In the above output the dots mean success, the letters can be F, E, P, D which stand for failure, error, pending, disabled - pretty simple.
+
+The FailuresOnly output writer ignores everything except failure and error and outputs those.
+
+== Test Double Integration
+
+Currently if you want to mock and stub, the only thing that is built in is mocha integration. Mocha is also the default value for test double integration which means you need the mocha gem installed. If you don't want mocking and stubbing you can disable when you execute:
+
+  attest -i file1.rb -t none 
+ 
+If you want to be explicit regarding mocha you can do:
+
+  attest -i file1.rb -t mocha
+
+There is an example of using mocha with attest in the examples directory, have a look. I do have plans to perhaps integrate other test double frameworks, and possibly to build a simple one to complement attest, but that's for the future. In the meantime hopefully mocha should fulfill most needs.
+
 
 == Current And Upcoming Features
 
 - define tests inline
 - call private methods as if they were public
 - access instance variables as if they were exposed
-- a basic output writer
-- only a few expectation types, should_fail, should_be_true, should_not_be_true, should_raise, should_not_raise - that's it for the moment
-- setup and teardown for all tests, but can connfigure a test so that no setup is run for it
+- three types of output writers with the possibility to define your own
+- expectations such as should_fail, should_be_true, should_not_be_true, should_raise, should_not_raise, should_equal, should_be_same, should_match with aliases to other sensible names such as should_be_same_as etc. these work using both parameters or if you need to do fancy code, blocks
+- setup and teardown for all tests, but can configure a test so that no setup is run for it, also there is a before_all and after_all that gets executed once before/after all the tests in a file 
 - automatically create a class that includes a module which methods you want to test (if you have a module called MyModule and you want to test its methods buy only after the module has been included in a class, a class called MyModuleClass will be automatically created and will include your module, an object of this new class will be instantiated for you to play with) e.g:
 
     before_all do
@@ -116,32 +189,42 @@ Currently that's the only kind of output format, I'll whip up some more output f
     end
 
 - tries not to pollute core objects too much
+- test can be pending if they have no body
+- tests can be marked as disabled
+- there is a rake task that is part of attest you can configure it in your project and execute your attest tests using rake instead of using the command line, the advantage is you configure once instead of every time you run, the disadvantage is less flexibility, i am looking to build this area out a bit more in future so you'll be able to do more with rake, here is an example of how to configure it:
 
-I've got a few things I want to try out in the future, I've already mentioned some of them such as more output writers and ability to define your own as well as giving it more smarts in various areas. More specifically here are some things that are high on my radar:
+  require 'attest/rake/attesttask'
+  Rake::AttestTask.new do |attest|
+    attest.include = ["spec/"]
+    attest.exclude = ["spec/tmp"]
+    attest.outputwriter = "Basic"
+    attest.testdouble = "mocha"
+  end
 
-- integrating with Mocha to provide at least some test double (i.e. mocking/stubbing) functionality
+- mocha integration to provide test double (mocking/stubbing) functionality, although I have a suspicion that it may not play nice with bundler the way it is now (need to confirm this), but if you have the gem installed normally everything should work fine, other test double frameworks are on the way
+
+I've got a few things I want to try out in the future, like the ability to define your own output writers, more smarts in various areas, state across test executions, ability to execute only specific tests e.g. slowest from previous run etc. More specifically here are some things that are high on my radar:
+
 - writing my own test double project in the same general style as attest and integrating with it as well to give another more seamless mock/stub option
-- default rake task for ability to run via rake rather than having to use the attest executable
-- output the expectation count, not just the test count in the output report 
-- more smarts around classes that define their own method missing
-- ability to disable tests and have the output list them as such 
-- write some basic unit tests for the framework using itself as the test framework (i.e. eating own dogfood style)
 - allow for multiple setup and teardown blocks and ability to specify which tests they are relevant for
 - haven't yet decided if I nested contexts are a good idea, I find they tend to confuse things
 - maybe ability to do shared contexts, once again haven't decided if they are a good idea
-- more types of expectations for convenience, e.g. should_equal etc.
-- look at providing convenience stuff for web testing since that seems to be a big deal these days, ditto file system testing (requires mucho more thought)
+- more types of expectations for convenience such as predicate expectations and more smarts regarding difining your own matchers
 
 
 == More Examples
 
-Go to the examples directory in the code, it contains the above example as well as a couple of others, reasonably easy to understand, as I said not a lot to remember at the moment.
+Go to the examples directory in the code, it contains the above example as well as a couple of others, reasonably easy to understand. Also the spec directory contains some unit tests that utilise attest to test its own classes, this has examples of using mocha and fakefs as well as many of the features used in a real context.
+
+== If You Have Questions/Found A Bug/Want A Feature 
+
+I am pretty open to ideas/conversation etc., just drop me a line (either through github or direct, just google skorks, you can't miss me :)) and we'll sort it out one way or another.
 
 == Note on Patches/Pull Requests
  
 * Fork the project.
 * Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a future version unintentionally. (Ok, you can't really do that as yet, but it's coming up :))
+* Add tests for it. This is important so I don't break it in a future version unintentionally. If you can add some unit tests using attest itself then please do so, if it's too hard at least provide an example in the examples directory.
 * Commit, do not mess with rakefile, version, or history. (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 

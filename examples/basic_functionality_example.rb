@@ -32,9 +32,9 @@ if ENV["attest"]
     test("should NOT raise an error") {should_not_raise{@calculator.increment 4}}
     test("it should raise an error, don't care what kind") {should_raise {@calculator.divide 5, 0}}
     test("it should raise a ZeroDivisionError error with a message"){should_raise(ZeroDivisionError, :with_message => /divided by.*/){@calculator.divide 5, 0}}
-    test("adding 5 and 2 does not equal 8") { should_not_be_true{ @calculator.add(5,2) == 8 } } 
+    test("adding 5 and 2 does not equal 8") { should_not_be_true(@calculator.add(5,2) == 8) } 
     test("this test will be an error when non-existant method called") {should_be_true{ @calculator.non_existant }}
-    test("should be able to call a private method like it was public"){should_be_true{@calculator.multiply(2,2) == 4}}
+    test("should be able to call a private method like it was public"){should_be_true(@calculator.multiply(2,2) == 4)}
 
     test "access an instance variable without explicitly exposing it" do
       @calculator.remember_value(5)
@@ -47,7 +47,7 @@ if ENV["attest"]
     end
 
     nosetup 
-    test("should not have access to calculator instance since run without setup"){should_be_true{@calculator == nil}}
+    test("should not have access to calculator instance since run without setup"){should_be_true(@calculator == nil)}
 
     test("should_equal expectations with and without block") do
       should_equal 5, 5

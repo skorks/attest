@@ -134,9 +134,7 @@ $ need to refactor my output writers to extract all common functionality so that
 $ create a rake task that can be easily configured into a rake file with all the relevant configuration values so that attest can be run through rake instead of just the command line DONE
 $ timing for how long it took to complete the whole test suite DONE
 $ better failure reporting DONE
-- need to be able to define helper methods within tests somehow that can be called from within tests and setups etc.
-- figure out if mocha works properly when using bundler, my guess it will not
-- modify the readme, mention the problems wil inline test definition, mention the new expectations, mentiont about the new output writers, mention how output reporting works, disabled tests, test double framework configuration, inclusion and exclusion, before_all and before_each, mention the rake task
+$ modify the readme, mention the problems wil inline test definition, mention the new expectations, mentiont about the new output writers, mention how output reporting works, disabled tests, test double framework configuration, inclusion and exclusion, before_all and before_each, mention the rake task DONE
 
 
 $ BUG: I think I am now counting expectations passes rather than test passes, since i am getting ran 6 test 7 successful for mocka tests, need to look into this further DONE
@@ -144,15 +142,17 @@ $ BUG: I think I am now counting expectations passes rather than test passes, si
 $ POC perhaps hold off until next release, ability to actually convert a block to a string to be able to provide more information regarding what actually failed, essentially will need proc.to_s code DONE
 $ POC remove trollop as a dependency to minimize dependecies, either that, or pull the trollop code in directly to minimize on dependecies, see if it's possible to easily acomplish this with git, if not then just manual DONE
 - POC once test double functionality is in, see what we can do about writing some tests for this framework using itself, even a minimal test suite will be better than nothing
-- POC rake task that can easily be configured in a project to configure all the moving parts and run attest via rake (e.g. rake attest)
+$ POC rake task that can easily be configured in a project to configure all the moving parts and run attest via rake (e.g. rake attest) DONE
 - POC expectations on objects themselves, see if this can be done in such a way as to make it possible to include that bit separately via a separate require or command line paramter or rake config or all of the above
 - POC hook in autotest somehow
 - POC write some smarts about requiring things maybe even do this as a separate gem similar to require_all but with even more smarts and potential configurations call it require_bot
 - POC own test double framework first only for ability to simply provide stubs, also ability to do mocks that verify expected behaviour, possibly two modes, one that complains when unexpected methods are called within test methods, the other mode is the opposite, is fine with unexpected methods, but complains when expected methods are not called, mock and stub class and instance methods, mock on just one object or all objects of the type, probably should be its own gem as well
-- POC support to allow more traditional i.e. non-inline creating of test in which case perhaps the if env block should not be necessary, tests will live in an attest directory, whatever once again should work via executable as well as rake task, all the smarts that we need to get this to happen
+$ POC support to allow more traditional i.e. non-inline creating of test in which case perhaps the if env block should not be necessary, tests will live in an attest directory, whatever once again should work via executable as well as rake task, all the smarts that we need to get this to happen DONE
 
 next release 2
 
+- figure out if mocha works properly when using bundler, my guess it will not
+- need to be able to define helper methods within tests somehow that can be called from within tests and setups etc.
 - timing for each test as well as each container should be recorded even if not outputted
 - refactor the duplication between the attest executable in bin and the attest rake task
 - figure out a better way to read/execute tests if they are defined inline
