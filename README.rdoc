@@ -194,6 +194,7 @@ There is an example of using mocha with attest in the examples directory, have a
 - there is a rake task that is part of attest you can configure it in your project and execute your attest tests using rake instead of using the command line, the advantage is you configure once instead of every time you run, the disadvantage is less flexibility, i am looking to build this area out a bit more in future so you'll be able to do more with rake, here is an example of how to configure it:
 
     require 'attest/rake/attesttask'
+
     Rake::AttestTask.new do |attest|
       attest.include = ["spec/"]
       attest.exclude = ["spec/tmp"]
