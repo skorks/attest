@@ -132,7 +132,7 @@ $ more different types of expectations, should_equal(5){5}, should_not_equal, sh
 $ refactor expectations so that they can be used without a block but simply with parameters DONE
 $ need to refactor my output writers to extract all common functionality so that there isn't so much code duplication (perhaps using modules or something) DONE
 $ create a rake task that can be easily configured into a rake file with all the relevant configuration values so that attest can be run through rake instead of just the command line DONE
-- timing for how long it took to complete the whole test suite 
+$ timing for how long it took to complete the whole test suite DONE
 $ better failure reporting DONE
 - need to be able to define helper methods within tests somehow that can be called from within tests and setups etc.
 - figure out if mocha works properly when using bundler, my guess it will not
@@ -153,6 +153,7 @@ $ POC remove trollop as a dependency to minimize dependecies, either that, or pu
 
 next release 2
 
+- timing for each test as well as each container should be recorded even if not outputted
 - refactor the duplication between the attest executable in bin and the attest rake task
 - figure out a better way to read/execute tests if they are defined inline
 - as part of the spec test suite create a set of blackbox tests that replicate the functionality in the examples directory to test that actual functionality is working correctly, perhaps create some sort of testing output writer and use that for asserting stuff possibly, these will esssentially be acceptance tests

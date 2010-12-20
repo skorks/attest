@@ -5,10 +5,12 @@ module Attest
   module Output
     class TestUnitOutputWriter < Attest::Output::OutputWriter
       def before_all_tests
+        super
         puts 
       end
 
       def after_all_tests
+        super
         puts 
       end
 

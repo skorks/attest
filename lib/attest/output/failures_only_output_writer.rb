@@ -11,6 +11,7 @@ module Attest
       end
 
       def after_all_tests
+        super
         @relevant_outputs.rewind
         2.times {puts}
         puts @relevant_outputs.readlines
