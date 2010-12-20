@@ -150,7 +150,12 @@ module Attest
     end
 
     def source_location
-      caller[1][/(.*:\d+):.*/, 1]
+      caller.each_with_index do |stack_line|
+        if stack_line[Attest.config.current_file]
+          return stack_line[/(.*:\d+):.*/, 1]
+        end
+      end
+      ""
     end
 
     def with_new_result

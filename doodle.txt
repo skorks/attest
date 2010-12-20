@@ -133,10 +133,10 @@ $ refactor expectations so that they can be used without a block but simply with
 $ need to refactor my output writers to extract all common functionality so that there isn't so much code duplication (perhaps using modules or something) DONE
 $ create a rake task that can be easily configured into a rake file with all the relevant configuration values so that attest can be run through rake instead of just the command line DONE
 - timing for how long it took to complete the whole test suite 
-- better failure reporting
+$ better failure reporting DONE
 - need to be able to define helper methods within tests somehow that can be called from within tests and setups etc.
 - figure out if mocha works properly when using bundler, my guess it will not
-- modify the readme, mention the problems wil inline test definition, mention the new expectations, mentiont about the new output writers, mention how output reporting works, disabled tests, test double framework configuration, inclusion and exclusion, before_all and before_each
+- modify the readme, mention the problems wil inline test definition, mention the new expectations, mentiont about the new output writers, mention how output reporting works, disabled tests, test double framework configuration, inclusion and exclusion, before_all and before_each, mention the rake task
 
 
 $ BUG: I think I am now counting expectations passes rather than test passes, since i am getting ran 6 test 7 successful for mocka tests, need to look into this further DONE
