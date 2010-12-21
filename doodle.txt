@@ -1,19 +1,5 @@
 rough features 
 
-able to write single test in the same file as code under test, should not be able to accidentally run the test code
-able to go through all the ruby files in the project and run any tests that are found 
-able to print progress to the commandline as tests are being run 
-do not pollute the core classes unnecessarily
-
-able to go through all the ruby files in supplied directory running tests when found
-
-
-
-
-
-passing a ruby file to attest should print out whether or not there may be any inline tests in the ruby file
-
-
 most basic
 - setup and teardown DONE
 - specify test for regular public method DONE
@@ -152,35 +138,44 @@ $ POC support to allow more traditional i.e. non-inline creating of test in whic
 next release 2
 
 - figure out if mocha works properly when using bundler, my guess it will not
+- if mocha not working properly get it to work with bundler correctly, maybe need to add a parameter to say which bundler group moacha is in
 - need to be able to define helper methods within tests somehow that can be called from within tests and setups etc.
 - timing for each test as well as each container should be recorded even if not outputted
 - refactor the duplication between the attest executable in bin and the attest rake task
-- figure out a better way to read/execute tests if they are defined inline
+- figure out a better way to read/execute tests if they are defined inline, perhaps the file needs to be parsed lexically and the inline test bit pulled out and run as its own separate file, maybe through creating a temp file or even just able eval the block somehow without need for temp file, but will need to keep track of line numbers from original file somehow and will need to make sure that proc to string still works correctly in this case
 - as part of the spec test suite create a set of blackbox tests that replicate the functionality in the examples directory to test that actual functionality is working correctly, perhaps create some sort of testing output writer and use that for asserting stuff possibly, these will esssentially be acceptance tests
-- create a better set of unit tests that are not as black box
-- perhaps keep track of timings for how long it took to complete each of the test containers as well as each of the individual tests so that can track stats for test execution speed
+- create a better set of unit tests, essentially need more unit tests, try to test what the methods do as opposed to simply testing that methods get called
 - still more matchers, should_be_around(6, :plus_minus => 1){5} that should work for floats also, maybe give ability to do predicate matchers, i.e if objects responds to a question mark method like include? should be able to do should_include 5, some_array, also think about a good way to create more flexible matchers, more flexible than lambda based ones so that can supply parameters to matchers
-- write and integrate own test double framework (look at rr for syntax suggestions)
-- create some tests using the framework itself around the framework classes (minimal test suite)
-- allow expectations to be made on objects themselves
-- allow for tests to be given ids as well as descriptions
-- allow for multiple before and after blocks should specify which test to run this block for using ids of tests as parameters
-- think of even more different types of expectations
-- specify your own expectations
-- some way to share the expectations that you have created yourself amongs all the different tests in different files
-- pull in tests from other files into current file easily
+- see if possible to integrate another test double framework besides mocha, like rr or shoulda etc.
+- allow for multiple before and after blocks should be able to essentially have specific before and after blocks run for specific tests, perhaps using some kind of id marker for tests 
+- some way to share the expectations that you have created yourself amongs all the different tests in different files, as long as matchers can be specified in a separate file they can be shared using requires, perhaps matchers should be pre-parsed out of all the test files beforehand, which means we perhaps need to pre-parse all the tests before executing them
 - ability to run tests in parallel in multiple different ruby processes (depending on how many processors you have, configurable) then aggregate all the results, unit test parallelisation, ability to declare some test classes as non-parallelisable in which case they execute in a traditional fashion after all the parallelised tests have been run
-- ability to only run unsuccessful tests from a previous run, only the fails and the errors
+- ability to only run unsuccessful tests from a previous run, only the fails and the errors, the slowest test from previous run, this means that need to keep state of previous run perhaps save it in a file in the current project, location should be specifiable i.e. .attest.state
+- ability to configure the attest parameters via configuration file in the top level directory of the project i.e. .attest.config
+- build out the rake fucntionality with ability to run a single container/file, or even a single test from that file, perhaps by line number, all the other crazines should also be possible such as all failing tests from previous run, all error tests from previous run, slowest x tests from previous run 
 - ability to run only the tests that were run on the previous run
-- print out how long it took to complete the current test run
+- hook in autotest to be able to have tests executing in a automatic fashion
+- sandboxify the execution context class that I am using a little bit more, by remove irrelevant methods etc.
+- update the readme with all the relevant new details 
+- don't forget to bump the version before releasing the gem
 
 next release 3
+- pull in tests from other files into current file easily, all tests from another specification block should be able to be pulled into the current block, this may be of limited usefullness
+- allow expectations to be made on objects themselves, this needs further thought and perhaps can be controlled by parameter
+- write and integrate own test double framework, simple at first with basic stubbing and mocking functionality (look at rr for syntax suggestions)
 - come up with some more useful expectations, both on object and as standalone methods of test
 - look into rails stuff regarding expectations and idioms etc
 - should somehow be able to require all the necessary ruby files that are needed when a test is run for the test not to fail, e.g. because ruby files depend on other ruby files
-- hook into autotest somehow
+- look into doing helpful things for testing web stuffs
+- look into doing stuff to make railsy testing easier 
+- build out the unit test suite fully 
+- figure out a way to do acceptance level tests, i.e. black box functionality tests pehaps something that will build the attest gem, then install it the take a project with sample tests in it and copy it somewhere and then use attest to run the tests in that sample project the results should be written somewhere and not just outputted to the cli, but do need some way to set expectations of failure and success so that when new tests are added to the suite they get picked up automagically, perhaps some sort of debug/testing mode, but need a way for people to not be able to easily enable it, maybe this can be done through the description of the tests which can be parsed for what the expected result is 
+- ability for people to define their own output writer and hook it in for attest to use somehow
+- output writer functionality should be separated more from the actual outputting of stuff so that if people define their own output writer they can simply reuse all the calculations without having to do it themselves
+- see how easy it would be to provide nested contexts what that would entail and how it would effect everything, should be reasonably straight forward with recursiveness etc, but will need to think about a more scalable way of nesting in the output writers etc., need to study how these work in more detail
+- see how easy it would be to provide shared contexts, need to study how these work in more detail
+- look at what unit testing frameworks provide as far as rails support is concerned and how easy it would be to provide similar support, i.e. maybe through railties or whatever, only for rails 3 etc
 
 bug 
 - when requiring ruby files in another ruby file that one seems to inherit the tests from the other one DONE 
 - have a look at doing a similar thing for load method, i.e. myself call new load with an introduced new paramter, and only in that case should the env var for attest be set otherwise even regular load should ignore the if attest block, only if it look slike being an issue
-- BUG when nosetup is defined on test when the test is parsed it is parsed in the context of the parser and therefore hits method missing the only reason it works right now is because there is an instance var on parser called nosetup
