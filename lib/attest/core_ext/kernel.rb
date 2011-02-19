@@ -4,8 +4,7 @@ module Kernel
   def new_method_missing(name, *args, &block)
     original_error = nil
     begin
-        old_method_missing(name, *args, &block) 
-      return
+      return old_method_missing(name, *args, &block) 
     rescue NoMethodError => e
       original_error = e
     end
@@ -23,7 +22,7 @@ module Kernel
       end
       send(name, *args, &block)
     else
-      raise original_error
+      raise NoMethodError, original_error.to_s, original_error.backtrace
     end
   end
   alias_method :old_method_missing, :method_missing
